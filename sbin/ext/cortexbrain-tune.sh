@@ -718,7 +718,7 @@ MOUNT_SD_CARD()
 if [ "$auto_mount_sd" == on ]; then
 		$PROP persist.sys.usb.config mass_storage,adb;
 	if [ -e /dev/block/vold/179:49 ]; then
-		echo "/dev/block/vold/179:49" > /sys/devices/virtual/android_usb/android0/f_mass_storage/lun1/file;
+		echo "/dev/block/vold/179:9" > /sys/devices/virtual/android_usb/android0/f_mass_storage/lun1/file;
 	fi;
 	log -p i -t $FILE_NAME "*** MOUNT_SD_CARD ***";
 fi;
@@ -899,11 +899,11 @@ IO_SCHEDULER()
 	local sys_mmc1_scheduler="/sys/block/mmcblk1/queue/scheduler";
 
 	if [ "${state}" == "awake" ]; then
-		echo "$scheduler" > $sys_mmc0_scheduler;
-		echo "$scheduler" > $sys_mmc1_scheduler;
+		echo "$internal_iosched" > $sys_mmc0_scheduler;
+		echo "$sd_iosched" > $sys_mmc1_scheduler;
 	elif [ "${state}" == "sleep" ]; then
-		echo "$sleep_scheduler" > $sys_mmc0_scheduler;
-		echo "$sleep_scheduler" > $sys_mmc1_scheduler;
+		echo "noop" > $sys_mmc0_scheduler;
+		echo "noop" > $sys_mmc1_scheduler;
 	fi;
 
 	log -p i -t $FILE_NAME "*** IO_SCHEDULER: ${state} ***: done";	
@@ -920,7 +920,7 @@ AWAKE_MODE()
 
 	IO_TWEAKS;
 
-	KERNEL_SCHED "awake";
+#	KERNEL_SCHED "awake";
 
 	WAKEUP_DELAY;
 	
@@ -1008,8 +1008,8 @@ SLEEP_MODE()
 
 	if [ "$cortexbrain_cpu_boost" == on ]; then
 		# set CPU-Governor
-	echo "$deep_sleep" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
-	echo "$standby_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+#	echo "$deep_sleep" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+#	echo "$standby_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 		# reduce deepsleep CPU speed, SUSPEND mode
 	echo "$scaling_min_suspend_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 	echo "$scaling_max_suspend_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
@@ -1032,7 +1032,7 @@ SLEEP_MODE()
 	
 	echo "$SLEEP_LAPTOP_MODE" > /proc/sys/vm/laptop_mode;
 
-	KERNEL_SCHED "sleep";
+#	KERNEL_SCHED "sleep";
 
 	TUNE_IPV6;
 
@@ -1052,7 +1052,7 @@ SLEEP_MODE()
 	
 	IO_SCHEDULER "sleep";
 
-	VFS_CACHE_PRESSURE "sleep";
+#	VFS_CACHE_PRESSURE "sleep";
 
 	DISABLE_NMI;
 

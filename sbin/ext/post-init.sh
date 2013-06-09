@@ -92,6 +92,7 @@ pkill -f "com.gokhanmoral.stweaks.app";
 export CONFIG_BOOTING=1
 /res/uci.sh apply
 export CONFIG_BOOTING=
+
 echo "1" > /tmp/uci_done;
 
 # restore all the PUSH Button Actions back to there location

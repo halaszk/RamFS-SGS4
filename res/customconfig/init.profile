@@ -1,3 +1,4 @@
+CONTROLSWITCH_CPU=off
 sampling_rate=100000
 sampling_down_factor=2
 internal_iosched=row
