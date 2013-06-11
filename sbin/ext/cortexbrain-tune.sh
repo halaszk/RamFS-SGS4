@@ -137,13 +137,6 @@ for i in $MMC; do
 
 		echo "45" > /proc/sys/fs/lease-break-time;
 		echo "0" > /proc/sys/fs/leases-enable;
-		
-#		echo NO_NORMALIZED_SLEEPER > /sys/kernel/debug/sched_features;
-#		echo NO_NEW_FAIR_SLEEPERS > /sys/kernel/debug/sched_features;
-#		echo NO_START_DEBIT > /sys/kernel/debug/sched_features;
-#		echo NO_WAKEUP_PREEMPT > /sys/kernel/debug/sched_features;
-#		echo NEXT_BUDDY > /sys/kernel/debug/sched_features;
-#		echo SYNC_WAKEUPS > /sys/kernel/debug/sched_features;
 
 		log -p i -t $FILE_NAME "*** IO_TWEAKS ***: enabled";
 		return 0;
@@ -880,9 +873,9 @@ VFS_CACHE_PRESSURE()
 
 	if [ -e $sys_vfs_cache ]; then
 	if [ "${state}" == "awake" ]; then
-		echo "20" > $sys_vfs_cache;
+		echo "50" > $sys_vfs_cache;
 	elif [ "${state}" == "sleep" ]; then
-		echo "10" > $sys_vfs_cache;
+		echo "20" > $sys_vfs_cache;
 	fi;
 
 	log -p i -t $FILE_NAME "*** VFS_CACHE_PRESSURE: ${state} ***";
@@ -1052,7 +1045,7 @@ SLEEP_MODE()
 	
 	IO_SCHEDULER "sleep";
 
-#	VFS_CACHE_PRESSURE "sleep";
+	VFS_CACHE_PRESSURE "sleep";
 
 	DISABLE_NMI;
 
