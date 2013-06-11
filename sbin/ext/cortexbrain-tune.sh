@@ -230,8 +230,8 @@ SYSTEM_TWEAKS;
 BATTERY_TWEAKS()
 {
 	if [ "$cortexbrain_battery" == on ]; then
-	  $BB mount -t debugfs none /sys/kernel/debug;
-	  $BB umount /sys/kernel/debug;
+#	  $BB mount -t debugfs none /sys/kernel/debug;
+#	  $BB umount /sys/kernel/debug;
 	  # vm tweaks
 	  echo "$dirty_background_ratio" > /proc/sys/vm/dirty_background_ratio; # default: 10
           echo "$dirty_ratio" > /proc/sys/vm/dirty_ratio; # default: 20
@@ -382,14 +382,14 @@ CPU_GOV_TWEAKS()
 		log -p i -t $FILE_NAME "*** CPU_GOV_TWEAKS: ${state} ***: enabled";
 	fi;
 }
-if [ "$cortexbrain_background_process" == 0 ]; then
-	CPU_GOV_TWEAKS "awake";
-fi;
+#if [ "$cortexbrain_background_process" == 0 ]; then
+#	CPU_GOV_TWEAKS "awake";
+#fi;
 # this needed for cpu tweaks apply from STweaks in real time.
-apply_cpu=$2;
-if [ "${apply_cpu}" == "update" ]; then
-CPU_GOV_TWEAKS "awake";
-fi;
+#apply_cpu=$2;
+#if [ "${apply_cpu}" == "update" ]; then
+#CPU_GOV_TWEAKS "awake";
+#fi;
 
 # ==============================================================
 # MEMORY-TWEAKS
@@ -717,7 +717,7 @@ MOUNT_SD_CARD()
 {
 if [ "$auto_mount_sd" == on ]; then
 		$PROP persist.sys.usb.config mass_storage,adb;
-	if [ -e /dev/block/vold/179:49 ]; then
+	if [ -e /dev/block/vold/179:9 ]; then
 		echo "/dev/block/vold/179:9" > /sys/devices/virtual/android_usb/android0/f_mass_storage/lun1/file;
 	fi;
 	log -p i -t $FILE_NAME "*** MOUNT_SD_CARD ***";
@@ -1030,7 +1030,7 @@ SLEEP_MODE()
 	$IWCONFIG $INTERFACE txpower $cortexbrain_wifi_tx;
 	fi;
 	
-	echo "$SLEEP_LAPTOP_MODE" > /proc/sys/vm/laptop_mode;
+#	echo "$SLEEP_LAPTOP_MODE" > /proc/sys/vm/laptop_mode;
 
 #	KERNEL_SCHED "sleep";
 
