@@ -389,6 +389,15 @@ echo '
 
 		<button description="Clean RAM Cache, this will release all cached and buffered RAM" name="CLEAN RAM CACHE" action="push-actions/clean_ram_cache" label="CLEAN RAM CACHE NOW"/>
 	  </settingsPane>
+	<settingsPane description="Here you can set ZRAM compressed memory tweaks for more free RAM. Settings managed by Kernel." name="Kernel ZRAM">
+		<spinner description="ZRAM Module settings. Here you can shut down ZRAM or add more compressed RAM for your system." 
+			name="ZRAM Settings" action="zram">
+			<spinnerItem name="Set ZRAM to 150MB" value="1"/> 
+			<spinnerItem name="Set ZRAM to 300MB (default)" value="2"/> 
+			<spinnerItem name="Set ZRAM to 600MB" value="3"/> 
+			<spinnerItem name="Set ZRAM OFF!" value="4"/> 
+		</spinner>
+  	</settingsPane>
 		
   </settingsTab>
   <settingsTab name="Other">

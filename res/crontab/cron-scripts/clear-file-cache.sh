@@ -2,8 +2,8 @@
 # Clear Cache script
 
 (
-	PROFILE=`cat /data/.siyah/.active.profile`;
-	. /data/.siyah/$PROFILE.profile;
+	PROFILE=`cat /data/.halaszk/.active.profile`;
+	. /data/.halaszk/$PROFILE.profile;
 
 	if [ "$cron_clear_app_cache" == "on" ]; then
 

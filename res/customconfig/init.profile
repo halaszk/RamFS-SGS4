@@ -38,3 +38,4 @@ gpsregion=Europe
 Dyn_fsync_active=off
 GENTLE_FAIR_SLEEPERS=off
 ARCH_POWER=on
+zram=2

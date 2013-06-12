@@ -3,8 +3,8 @@
 #Modded by Dorimanx.
 
 (
-PROFILE=`cat /data/.siyah/.active.profile`;
-. /data/.siyah/$PROFILE.profile;
+PROFILE=`cat /data/.halaszk/.active.profile`;
+. /data/.halaszk/$PROFILE.profile;
 
 if [ "$cron_zipalign" == "on" ]; then
 

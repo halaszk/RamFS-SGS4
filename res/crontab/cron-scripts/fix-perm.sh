@@ -1,8 +1,8 @@
 #!/sbin/busybox sh
 
 (
-	PROFILE=`cat /data/.siyah/.active.profile`;
-	. /data/.siyah/$PROFILE.profile;
+	PROFILE=`cat /data/.halaszk/.active.profile`;
+	. /data/.halaszk/$PROFILE.profile;
 
 	if [ "$cron_fix_permissions" == "on" ]; then
 		while [ ! `cat /proc/loadavg | cut -c1-4` \< "3.50" ]; do

@@ -67,6 +67,26 @@ read_config;
 
 sync
 
+######################################
+# Loading Modules
+######################################
+$BB chmod -R 755 /lib;
+
+(
+	sleep 40;
+	# order of modules load is important.
+	$BB insmod /lib/modules/scsi_wait_scan.ko;
+)&
+
+# for ntfs automounting
+#insmod /lib/modules/fuse.ko;
+mount -o remount,rw /
+mkdir -p /mnt/ntfs
+chmod 777 /mnt/ntfs
+mount -o mode=0777,gid=1000 -t tmpfs tmpfs /mnt/ntfs
+mount -o remount,ro /
+
+
 echo "20" > /proc/sys/vm/dirty_background_ratio
 echo "80" > /proc/sys/vm/dirty_ratio
 echo "100" > /proc/sys/vm/swappiness
