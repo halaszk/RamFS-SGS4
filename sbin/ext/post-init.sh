@@ -63,7 +63,7 @@ read_config;
 
 /system/bin/setprop pm.sleep_mode 1
 /system/bin/setprop ro.ril.disable.power.collapse 0
-/system/bin/setprop wifi.supplicant_scan_interval 60
+/system/bin/setprop wifi.supplicant_scan_interval 360
 
 sync
 
@@ -87,9 +87,9 @@ mount -o mode=0777,gid=1000 -t tmpfs tmpfs /mnt/ntfs
 mount -o remount,ro /
 
 
-echo "20" > /proc/sys/vm/dirty_background_ratio
-echo "80" > /proc/sys/vm/dirty_ratio
-echo "100" > /proc/sys/vm/swappiness
+#echo "20" > /proc/sys/vm/dirty_background_ratio
+#echo "80" > /proc/sys/vm/dirty_ratio
+#echo "100" > /proc/sys/vm/swappiness
 echo "120" > /proc/sys/vm/vfs_cache_pressure
 
 # Cortex parent should be ROOT/INIT and not STweaks

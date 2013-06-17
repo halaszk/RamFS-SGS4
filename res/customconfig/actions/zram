@@ -9,8 +9,12 @@
 # $1 - "zram"
 # $2 - value=
 
-if [ "a$2" != "a" ]; then
-zram=$2;
+if [ -z $2 ];then
+        if [ -z $zram ]; then
+                echo zram=$zram >> $DEFAULT_PROFILE
+        fi
+else
+        zram=$2
 
 case "${zram}" in
 	1)

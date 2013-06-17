@@ -29,8 +29,8 @@ PROP=/system/bin/setprop;
 sqlite=/sbin/sqlite3;
 wifi_idle_wait=10000;
 # set initial vm.dirty vales
-#echo "2000" > /proc/sys/vm/dirty_writeback_centisecs;
-#echo "1000" > /proc/sys/vm/dirty_expire_centisecs;
+echo "2000" > /proc/sys/vm/dirty_writeback_centisecs;
+echo "1000" > /proc/sys/vm/dirty_expire_centisecs;
 # init functions.
 sleeprun=1;
 wifi_helper_awake=1;
@@ -945,7 +945,7 @@ AWAKE_MODE()
 	
 	IO_SCHEDULER "awake";
 	
-	VFS_CACHE_PRESSURE "awake";
+#	VFS_CACHE_PRESSURE "awake";
 
 	if [ "$cortexbrain_cpu_boost" == on ]; then
 	# set CPU speed
@@ -1045,7 +1045,7 @@ SLEEP_MODE()
 	
 	IO_SCHEDULER "sleep";
 
-	VFS_CACHE_PRESSURE "sleep";
+#	VFS_CACHE_PRESSURE "sleep";
 
 	DISABLE_NMI;
 
@@ -1075,19 +1075,19 @@ SLEEP_MODE()
 
 # Dynamic value do not change/delete
 cortexbrain_background_process=1;
-
 if [ "$cortexbrain_background_process" == 1 ]; then
 	(while [ 1 ]; do
-	ONLINE_CPUS=$(cat /sys/devices/system/cpu/online);
+	SCREEN_OFF=$(cat /sys/class/lcd/panel/device/backlight/panel/brightness);
 
 		# AWAKE State. all system ON.
-		if [ "$ONLINE_CPUS" != 0 ]; then
+		if [ "$SCREEN_OFF" != 0 ]; then
 		AWAKE_MODE;
-		sleep 3;
+		sleep 5;
 
 		# SLEEP state. All system to power save.
-                elif [ "$ONLINE_CPUS" == 0 ]; then
+                elif [ "$SCREEN_OFF" == 0 ]; then
                 SLEEP_MODE;
+		sleep 5;
 		fi;
 
 	done &);
