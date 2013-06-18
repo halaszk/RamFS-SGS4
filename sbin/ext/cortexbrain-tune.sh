@@ -29,8 +29,8 @@ PROP=/system/bin/setprop;
 sqlite=/sbin/sqlite3;
 wifi_idle_wait=10000;
 # set initial vm.dirty vales
-echo "2000" > /proc/sys/vm/dirty_writeback_centisecs;
-echo "1000" > /proc/sys/vm/dirty_expire_centisecs;
+#echo "2000" > /proc/sys/vm/dirty_writeback_centisecs;
+#echo "1000" > /proc/sys/vm/dirty_expire_centisecs;
 # init functions.
 sleeprun=1;
 wifi_helper_awake=1;
@@ -1075,19 +1075,26 @@ SLEEP_MODE()
 
 # Dynamic value do not change/delete
 cortexbrain_background_process=1;
+already_awake=0;
+already_sleep=0;
 if [ "$cortexbrain_background_process" == 1 ]; then
 	(while [ 1 ]; do
+sleep 5;
 	SCREEN_OFF=$(cat /sys/class/lcd/panel/device/backlight/panel/brightness);
 
 		# AWAKE State. all system ON.
-		if [ "$SCREEN_OFF" != 0 ]; then
+		if [ "$SCREEN_OFF" != 0 ] && [ "$already_awake" == 0 ]; then
 		AWAKE_MODE;
-		sleep 5;
+		already_awake=1;
+		already_sleep=0;
+		sleep 2;
 
 		# SLEEP state. All system to power save.
-                elif [ "$SCREEN_OFF" == 0 ]; then
+                elif [ "$SCREEN_OFF" == 0 ] && [ "$already_sleep" == 0 ]; then
                 SLEEP_MODE;
-		sleep 5;
+                already_awake=0;
+                already_sleep=1;
+		sleep 2;
 		fi;
 
 	done &);

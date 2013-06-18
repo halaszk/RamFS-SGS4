@@ -77,7 +77,38 @@ echo '
       </spinner>
     </settingsPane>
   </settingsTab>
-  
+
+  <settingsTab name="Audio">
+    <settingsPane description="Headphone amplification increases volume only on headphones and headsets."
+                  name="Headphone Amplification">
+      <seekBar  description="Headphone Amplifier Level"
+                name="Headphone left channel volume"
+                action="generic /sys/class/misc/wolfson_control/headphone_left"
+                unit="" min="0" reversed="false" step="1" max="150"/>
+
+      <seekBar  description=""
+                name="Headphone right channel volume"
+                action="generic /sys/class/misc/wolfson_control/headphone_right"
+                unit="" min="0" reversed="false" step="1" max="150"/>
+    </settingsPane>
+
+
+    <settingsPane description="Speaker amplification increases volume on the external speaker and earpiece. Speaker volumes are expressed as deltas to Samsungs audio profiles, so not to completely override them."
+                name="Speaker Amplification">
+
+      <seekBar  description="External speaker amlification level."
+                name="Main speaker volume"
+                action="generic /sys/class/misc/wolfson_control/speaker_volume"
+                unit="" min="-30" reversed="false" step="1" max="30"/>
+
+      <seekBar  description="Earpiece speaker amlification level."
+                name="Earpiece volume"
+                action="generic /sys/class/misc/wolfson_control/earpiece_volume"
+                unit="" min="-30" reversed="false" step="1" max="30"/>
+
+    </settingsPane>
+  </settingsTab>
+
   <settingsTab name="I/O">
     <settingsPane description="Set the active I/O elevator algorithm. The scheduler decides how to handle I/O requests and how to handle them. FIOPS is the everyday recommended default scheduler."  
                   name="I/O schedulers">' >> $XML
