@@ -79,33 +79,67 @@ echo '
   </settingsTab>
 
   <settingsTab name="Audio">
-    <settingsPane description="Headphone amplification increases volume only on headphones and headsets."
-                  name="Headphone Amplification">
-      <seekBar  description="Headphone Amplifier Level"
-                name="Headphone left channel volume"
-                action="generic /sys/class/misc/wolfson_control/headphone_left"
-                unit="" min="0" reversed="false" step="1" max="150"/>
+    <settingsPane description="Headphone amplification increases volume only on headphones and headsets. The controlled input is the digital input volume for the audio DAC." 
+		  name="Headphone Amplification">
+      <seekBar  description="Headphone Amplifier Level" 
+		name="Headphone left channel volume"
+                action="digital-volume-abs /sys/class/misc/wolfson_control/headphone_left" 
+                unit="dB" min="-32" reversed="false" step="1" max="32"/>
 
-      <seekBar  description=""
-                name="Headphone right channel volume"
-                action="generic /sys/class/misc/wolfson_control/headphone_right"
-                unit="" min="0" reversed="false" step="1" max="150"/>
+      <seekBar  description="" 
+		name="Headphone right channel volume"
+                action="digital-volume-abs /sys/class/misc/wolfson_control/headphone_right" 
+                unit="dB" min="-32" reversed="false" step="1" max="32"/>
     </settingsPane>
 
 
-    <settingsPane description="Speaker amplification increases volume on the external speaker and earpiece. Speaker volumes are expressed as deltas to Samsungs audio profiles, so not to completely override them."
-                name="Speaker Amplification">
+    <settingsPane description="Speaker amplification increases volume on the external speaker and earpiece. Speaker volumes are expressed as deltas to Samsungs audio profiles, so not to completely override them." 
+		name="Speaker Amplification">
 
-      <seekBar  description="External speaker amlification level."
-                name="Main speaker volume"
-                action="generic /sys/class/misc/wolfson_control/speaker_volume"
-                unit="" min="-30" reversed="false" step="1" max="30"/>
+      <seekBar  description="External speaker amlification level." 
+		name="Main speaker volume" 
+                action="digital-volume /sys/class/misc/wolfson_control/speaker_volume" 
+                unit="dB" min="-32" reversed="false" step="1" max="32"/>
 
-      <seekBar  description="Earpiece speaker amlification level."
-                name="Earpiece volume"
-                action="generic /sys/class/misc/wolfson_control/earpiece_volume"
-                unit="" min="-30" reversed="false" step="1" max="30"/>
+      <seekBar  description="Earpiece speaker amlification level." 
+		name="Earpiece volume" 
+                action="digital-volume /sys/class/misc/wolfson_control/earpiece_volume" 
+                unit="dB" min="-32" reversed="false" step="1" max="32"/>
 
+    </settingsPane>
+
+    <settingsPane description="Controls the hardware equalizer." 
+                  name="Equalizer settings">
+
+      <checkbox description="Enable headphone equalizer for gain controls." 
+                name="Headphone equalizer" 
+                action="generic01 /sys/class/misc/wolfson_control/switch_eq_headphone" 
+                label="Enable headphone equalizer"/>
+
+      <seekBar  description="" 
+		name="Band1 gain" 
+                action="generic /sys/class/misc/wolfson_control/eq_hp_gain_1" 
+                unit=" dB" min="-12" reversed="false" step="1" max="20"/>
+
+      <seekBar  description="" 
+		name="Band2 gain" 
+                action="generic /sys/class/misc/wolfson_control/eq_hp_gain_2" 
+                unit=" dB" min="-12" reversed="false" step="1" max="20"/>
+
+      <seekBar  description="" 
+		name="Band3 gain" 
+                action="generic /sys/class/misc/wolfson_control/eq_hp_gain_3" 
+                unit=" dB" min="-12" reversed="false" step="1" max="20"/>
+
+      <seekBar  description="" 
+		name="Band4 gain" 
+                action="generic /sys/class/misc/wolfson_control/eq_hp_gain_4" 
+                unit=" dB" min="-12" reversed="false" step="1" max="20"/>
+
+      <seekBar  description="" 
+		name="Band5 gain" 
+                action="generic /sys/class/misc/wolfson_control/eq_hp_gain_5" 
+                unit=" dB" min="-12" reversed="false" step="1" max="20"/>
     </settingsPane>
   </settingsTab>
 

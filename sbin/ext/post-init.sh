@@ -41,6 +41,12 @@ if [ ! -f /system/app/STweaks.apk ]; then
  $BB chmod 644 /system/app/STweaks.apk
 fi
 
+echo "2" > /sys/devices/system/cpu/sched_mc_power_savings;
+
+for i in /sys/block/*/queue/add_random;do echo 0 > $i;done
+
+echo "0" > /proc/sys/kernel/randomize_va_space;
+
 
 $BB rm /data/.halaszk/customconfig.xml
 $BB rm /data/.halaszk/action.cache

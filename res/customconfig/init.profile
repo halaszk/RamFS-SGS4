@@ -39,3 +39,5 @@ Dyn_fsync_active=off
 GENTLE_FAIR_SLEEPERS=off
 ARCH_POWER=on
 zram=2
+digital_abs_headphone_left=-8
+digital_abs_headphone_right=-8
