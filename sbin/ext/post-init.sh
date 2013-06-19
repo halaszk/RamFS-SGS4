@@ -47,6 +47,9 @@ for i in /sys/block/*/queue/add_random;do echo 0 > $i;done
 
 echo "0" > /proc/sys/kernel/randomize_va_space;
 
+# allow user and admin to use all free mem.
+echo "0" > /proc/sys/vm/user_reserve_kbytes;
+echo "0" > /proc/sys/vm/admin_reserve_kbytes;
 
 $BB rm /data/.halaszk/customconfig.xml
 $BB rm /data/.halaszk/action.cache

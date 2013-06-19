@@ -152,21 +152,21 @@ KERNEL_TWEAKS()
 
 	if [ "$cortexbrain_kernel_tweaks" == on ]; then
 		if [ "${state}" == "awake" ]; then
-			echo "1" > /proc/sys/vm/oom_kill_allocating_task;
+			echo "0" > /proc/sys/vm/oom_kill_allocating_task;
 			echo "0" > /proc/sys/vm/panic_on_oom;
-			echo "60" > /proc/sys/kernel/panic;
+			echo "120" > /proc/sys/kernel/panic;
 			if [ "$cortexbrain_memory" == on ]; then
 				echo "32 64" > /proc/sys/vm/lowmem_reserve_ratio;
 			fi;
 		elif [ "${state}" == "sleep" ]; then
-			echo "1" > /proc/sys/vm/oom_kill_allocating_task;
+			echo "0" > /proc/sys/vm/oom_kill_allocating_task;
 			echo "1" > /proc/sys/vm/panic_on_oom;
 			echo "0" > /proc/sys/kernel/panic;
 			if [ "$cortexbrain_memory" == on ]; then
 				echo "32 32" > /proc/sys/vm/lowmem_reserve_ratio;
 			fi;
 		else
-			echo "1" > /proc/sys/vm/oom_kill_allocating_task;
+			echo "0" > /proc/sys/vm/oom_kill_allocating_task;
 			echo "0" > /proc/sys/vm/panic_on_oom;
 			echo "120" > /proc/sys/kernel/panic;
 		fi;
@@ -392,10 +392,9 @@ MEMORY_TWEAKS()
 	if [ "$cortexbrain_memory" == on ]; then
 		echo "$dirty_background_ratio" > /proc/sys/vm/dirty_background_ratio; # default: 10
 		echo "$dirty_ratio" > /proc/sys/vm/dirty_ratio; # default: 20
-		echo "2" > /proc/sys/vm/min_free_order_shift; # default: 4
-		echo "1" > /proc/sys/vm/overcommit_memory; # default: 0
+		echo "4" > /proc/sys/vm/min_free_order_shift; # default: 4
+		echo "0" > /proc/sys/vm/overcommit_memory; # default: 0
 		#echo "50" > /proc/sys/vm/overcommit_ratio; # default: 50
-		echo "32 32" > /proc/sys/vm/lowmem_reserve_ratio;
 		echo "3" > /proc/sys/vm/page-cluster; # default: 3
 		echo "8192" > /proc/sys/vm/min_free_kbytes;
 
@@ -537,26 +536,6 @@ FIREWALL_TWEAKS;
 # ==============================================================
 # SCREEN-FUNCTIONS
 # ==============================================================
-
-WIFI_PM()
-{
-	local state="$1";
-	if [ "${state}" == "sleep" ]; then
-		if [ "$wifi_pwr" == on ]; then
-			if [ -e /sys/module/dhd/parameters/wifi_pm ]; then
-				echo "1" > /sys/module/dhd/parameters/wifi_pm;
-			fi;
-		fi;
-
-	elif [ "${state}" == "awake" ]; then
-		if [ -e /sys/module/dhd/parameters/wifi_pm ]; then
-			echo "0" > /sys/module/dhd/parameters/wifi_pm;
-		fi;
-
-	fi;
-
-	log -p i -t $FILE_NAME "*** WIFI_PM ***: ${state}";
-}
 
 LOGGER()
 {
@@ -895,11 +874,13 @@ IO_SCHEDULER()
 		echo "$internal_iosched" > $sys_mmc0_scheduler;
 		echo "$sd_iosched" > $sys_mmc1_scheduler;
 	elif [ "${state}" == "sleep" ]; then
-		echo "noop" > $sys_mmc0_scheduler;
-		echo "noop" > $sys_mmc1_scheduler;
+		echo "cfq" > $sys_mmc0_scheduler;
+		echo "cfq" > $sys_mmc1_scheduler;
 	fi;
 
-	log -p i -t $FILE_NAME "*** IO_SCHEDULER: ${state} ***: done";	
+	log -p i -t $FILE_NAME "*** IO_SCHEDULER: ${state} - INTERNAL: $internal_iosched EXTERNAL: $sd_iosched ***: done";	
+		# set I/O Tweaks again ...
+		IO_TWEAKS;
 }
 
 # ==============================================================
@@ -945,7 +926,7 @@ AWAKE_MODE()
 	
 	IO_SCHEDULER "awake";
 	
-#	VFS_CACHE_PRESSURE "awake";
+	VFS_CACHE_PRESSURE "awake";
 
 	if [ "$cortexbrain_cpu_boost" == on ]; then
 	# set CPU speed
@@ -1045,7 +1026,7 @@ SLEEP_MODE()
 	
 	IO_SCHEDULER "sleep";
 
-#	VFS_CACHE_PRESSURE "sleep";
+	VFS_CACHE_PRESSURE "sleep";
 
 	DISABLE_NMI;
 
