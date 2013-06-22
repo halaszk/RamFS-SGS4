@@ -559,6 +559,8 @@ echo '
 			name="IPv6 Tweaks" action="generic_cortex /tmp/cortexbrain_ipv6" label="IPv6"/>
 		<checkbox description="Enable or Disable CPU-WakeUP Tweaks. (To update after change, turn OFF screen and turn it ON after 3sec!)"
 			name="CPU-WakeUp Tweaks" action="generic_cortex /tmp/cortexbrain_cpu_boost" label="CPU-BoostTweaks"/>
+		<checkbox description="Enable or Disable CPU-Tweaks. (To update after change, turn OFF screen and turn it ON after 3sec!)"
+                        name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
 		<checkbox description="Enable or Disable Battery-Tweaks. (To update after change REBOOT)"
 			name="Battery-Tweaks" action="generic_cortex /tmp/cortexbrain_battery" label="Battery-Tweaks"/>
 		<checkbox description="Enable or Disable System-Tweak. (To update after change REBOOT)"

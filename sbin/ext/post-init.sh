@@ -53,6 +53,16 @@ for i in /sys/block/*/queue/add_random;do echo 0 > $i;done
 
 echo "0" > /proc/sys/kernel/randomize_va_space;
 
+echo "0x0FA4 0x0404 0x0170 0x1C02 0xF3D6 0x040A 0x0F31 0x1977 0xF45E 0x040A 0x114C 0x1206 0xF740 0x040A 0x1CB6 0x08C0 0x0630 0x4000" > /sys/class/misc/wolfson_control/eq_sp_freqs;
+
+echo 11 > /sys/class/misc/wolfson_control/eq_sp_gain_1;
+echo -7 > /sys/class/misc/wolfson_control/eq_sp_gain_2;
+echo 8 > /sys/class/misc/wolfson_control/eq_sp_gain_3;
+echo -9 > /sys/class/misc/wolfson_control/eq_sp_gain_4;
+echo -6 > /sys/class/misc/wolfson_control/eq_sp_gain_5;
+
+echo 1 > /sys/class/misc/wolfson_control/switch_eq_speaker;
+
 # allow user and admin to use all free mem.
 echo "0" > /proc/sys/vm/user_reserve_kbytes;
 echo "8192" > /proc/sys/vm/admin_reserve_kbytes;
@@ -105,7 +115,7 @@ mount -o remount,ro /
 #echo "20" > /proc/sys/vm/dirty_background_ratio
 #echo "80" > /proc/sys/vm/dirty_ratio
 #echo "100" > /proc/sys/vm/swappiness
-echo "120" > /proc/sys/vm/vfs_cache_pressure
+#echo "120" > /proc/sys/vm/vfs_cache_pressure
 
 # Cortex parent should be ROOT/INIT and not STweaks
 nohup /sbin/ext/cortexbrain-tune.sh; 
