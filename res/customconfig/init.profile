@@ -1,10 +1,12 @@
 CONTROLSWITCH_CPU=off
 sampling_rate=100000
 sampling_down_factor=2
+internal_read_ahead_kb=1024
+sd_read_ahead_kb=1024
 internal_iosched=row
+internal_iosched=sd
 sd_iosched=fiops
 logger_mode=off
-internal_read_ahead_kb=256
 crontab=on
 cron_db_optimizing=on
 cron_drop_cache=on

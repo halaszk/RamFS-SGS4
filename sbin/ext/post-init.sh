@@ -2,6 +2,12 @@
 
 BB="/sbin/busybox";
 
+# oom and mem perm fix, we have auto adj code, do not allow changes in adj
+$BB chmod 777 /sys/module/lowmemorykiller/parameters/cost;
+$BB chmod 777 /proc/sys/vm/mmap_min_addr;
+$BB mkdir /tmp;
+$BB chmod 777 /tmp;
+
 PIDOFINIT=`pgrep -f "/sbin/ext/post-init.sh"`;
 for i in $PIDOFINIT; do
 echo "-600" > /proc/$i/oom_score_adj;
@@ -49,7 +55,7 @@ echo "0" > /proc/sys/kernel/randomize_va_space;
 
 # allow user and admin to use all free mem.
 echo "0" > /proc/sys/vm/user_reserve_kbytes;
-echo "0" > /proc/sys/vm/admin_reserve_kbytes;
+echo "8192" > /proc/sys/vm/admin_reserve_kbytes;
 
 $BB rm /data/.halaszk/customconfig.xml
 $BB rm /data/.halaszk/action.cache

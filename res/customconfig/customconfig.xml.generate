@@ -78,7 +78,7 @@ echo '
     </settingsPane>
   </settingsTab>
 
-  <settingsTab name="Audio">
+ <settingsTab name="Audio">
     <settingsPane description="Headphone amplification increases volume only on headphones and headsets. The controlled input is the digital input volume for the audio DAC." 
 		  name="Headphone Amplification">
       <seekBar  description="Headphone Amplifier Level" 
