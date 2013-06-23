@@ -901,6 +901,9 @@ AWAKE_MODE()
 	
 	MEGA_BOOST_CPU_TWEAKS;
 
+	#restore normal may freq after call or sleep ending
+	echo "$scaling_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+
 #	if [ "$cortexbrain_ksm_control" == on ] && [ "$KSM_TOTAL" != "" ]; then
 #	ADJUST_KSM;
 #	fi;
@@ -1044,6 +1047,9 @@ SLEEP_MODE()
 	LOGGER "sleep";
 
 	else
+
+	# reduce CPU speed in call mode (no overheating under call)
+	echo "600000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 		
 	log -p i -t $FILE_NAME "*** On Call! SLEEP aborted! ***";
 
