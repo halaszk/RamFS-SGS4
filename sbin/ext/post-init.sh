@@ -2,6 +2,8 @@
 
 BB="/sbin/busybox";
 
+$BB mount -o remount,rw /system
+$BB mount -t rootfs -o remount,rw rootfs
 # oom and mem perm fix, we have auto adj code, do not allow changes in adj
 $BB chmod 777 /sys/module/lowmemorykiller/parameters/cost;
 $BB chmod 777 /proc/sys/vm/mmap_min_addr;
@@ -12,9 +14,6 @@ PIDOFINIT=`pgrep -f "/sbin/ext/post-init.sh"`;
 for i in $PIDOFINIT; do
 echo "-600" > /proc/$i/oom_score_adj;
 done;PIDOFINIT=`pgrep -f "/sbin/ext/post-init.sh"`;
-
-$BB mount -o remount,rw /system
-$BB mount -t rootfs -o remount,rw rootfs
 
 if [ ! -f /system/xbin/su ]; then
 $BB mv  /res/su /system/xbin/su

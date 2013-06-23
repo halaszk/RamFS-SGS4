@@ -589,13 +589,13 @@ if [ "$cortexbrain_ksm_control" == on ]; then
 		case x${1} in
 			xstop)
 				log -p i -t $FILE_NAME "*** ksm: stop ***";
-				echo 0 > /sys/kernel/mm/uksm/run;
+				echo 0 > /sys/kernel/mm/ksm/run;
 			;;
 			xstart)
 				log -p i -t $FILE_NAME "*** ksm: start ${2} ${3} ***";
-				echo ${2} > /sys/kernel/mm/uksm/pages_to_scan;
-				echo ${3} > /sys/kernel/mm/uksm/sleep_millisecs;
-				echo 1 > /sys/kernel/mm/uksm/run;
+				echo ${2} > /sys/kernel/mm/ksm/pages_to_scan;
+				echo ${3} > /sys/kernel/mm/ksm/sleep_millisecs;
+				echo 1 > /sys/kernel/mm/ksm/run;
 				renice -n 10 -p "$(pidof ksmd)";
 			;;
 			esac
@@ -756,6 +756,7 @@ SWAPPINESS()
 	fi;
 log -p i -t $FILE_NAME "*** SWAPPINESS: $swappiness ***";
 }
+SWAPPINESS;
 
 TUNE_IPV6()
 {
@@ -904,9 +905,9 @@ AWAKE_MODE()
 	#restore normal may freq after call or sleep ending
 	echo "$scaling_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 
-#	if [ "$cortexbrain_ksm_control" == on ] && [ "$KSM_TOTAL" != "" ]; then
-#	ADJUST_KSM;
-#	fi;
+	if [ "$cortexbrain_ksm_control" == on ]; then
+	ADJUST_KSM;
+	fi;
 	
 	WAKEUP_BOOST_DELAY;
 	
@@ -1022,11 +1023,11 @@ SLEEP_MODE()
 
 	WIFI_PM "sleep";
 
-#	if [ "$cortexbrain_ksm_control" == on ]; then
-#			KSMCTL "stop";
-#		else
-#			echo 2 > /sys/kernel/mm/uksm/run;
-#	fi;
+	if [ "$cortexbrain_ksm_control" == on ]; then
+			KSMCTL "stop";
+		else
+			echo 2 > /sys/kernel/mm/ksm/run;
+	fi;
 	
 	IO_SCHEDULER "sleep";
 
@@ -1051,7 +1052,7 @@ SLEEP_MODE()
 	# reduce CPU speed in call mode (no overheating under call)
 	echo "600000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 		
-	log -p i -t $FILE_NAME "*** On Call! SLEEP aborted! ***";
+	log -p i -t $FILE_NAME "*** On Call! SLEEP aborted, Reduced CPU speed to 600MHz! ***";
 
 	fi;
 
