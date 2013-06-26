@@ -10,6 +10,6 @@
 	cd /;
 )&
 sleep 1;
-CPU_LOG=`cat /data/.siyah/cpu_status`;
+CPU_LOG=`cat /data/.halaszk/cpu_status`;
 echo $CPU_LOG;
 

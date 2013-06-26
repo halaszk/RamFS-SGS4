@@ -2,7 +2,9 @@
 
 (
 	svc wifi disable;
+	sync;
 	rm -f /data/misc/dhcp/dhcpcd*;
+	sync;
 	svc wifi enable;
 	echo "WIFI Release Renew is DONE"
 )&

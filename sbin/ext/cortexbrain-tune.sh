@@ -393,11 +393,11 @@ MEMORY_TWEAKS()
 		echo "$dirty_background_ratio" > /proc/sys/vm/dirty_background_ratio; # default: 10
 		echo "$dirty_ratio" > /proc/sys/vm/dirty_ratio; # default: 20
 		echo "4" > /proc/sys/vm/min_free_order_shift; # default: 4
-		echo "1" > /proc/sys/vm/overcommit_memory; # default: 0
-		echo "950" > /proc/sys/vm/overcommit_ratio; # default: 50
+		echo "0" > /proc/sys/vm/overcommit_memory; # default: 0
+	#	echo "50" > /proc/sys/vm/overcommit_ratio; # default: 50
 		echo "3" > /proc/sys/vm/page-cluster; # default: 3
 		echo "8192" > /proc/sys/vm/min_free_kbytes;
-		echo "16384" > /proc/sys/vm/mmap_min_addr; 
+	#	echo "16384" > /proc/sys/vm/mmap_min_addr; 
 
 		log -p i -t $FILE_NAME "*** MEMORY_TWEAKS ***: enabled";
 		return 0;
@@ -566,7 +566,7 @@ if [ "$cortexbrain_ksm_control" == on ]; then
 	KSM_SLEEP_MSEC=200;
 	KSM_SLEEP_MIN=2000;
 
-	KSM_THRES_COEF=30;
+	KSM_THRES_COEF=20;
 	KSM_THRES_CONST=2048;
 
 	KSM_NPAGES=0;
@@ -902,7 +902,7 @@ AWAKE_MODE()
 	
 	MEGA_BOOST_CPU_TWEAKS;
 
-	#restore normal may freq after call or sleep ending
+	#restore normal max freq after call or sleep ending
 	echo "$scaling_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 
 	if [ "$cortexbrain_ksm_control" == on ]; then

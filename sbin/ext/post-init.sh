@@ -5,8 +5,8 @@ BB="/sbin/busybox";
 $BB mount -o remount,rw /system
 $BB mount -t rootfs -o remount,rw rootfs
 # oom and mem perm fix, we have auto adj code, do not allow changes in adj
-$BB chmod 777 /sys/module/lowmemorykiller/parameters/cost;
-$BB chmod 777 /proc/sys/vm/mmap_min_addr;
+#$BB chmod 777 /sys/module/lowmemorykiller/parameters/cost;
+#$BB chmod 777 /proc/sys/vm/mmap_min_addr;
 $BB mkdir /tmp;
 $BB chmod 777 /tmp;
 
@@ -64,7 +64,7 @@ echo 1 > /sys/class/misc/wolfson_control/switch_eq_speaker
 
 # allow user and admin to use all free mem.
 echo "0" > /proc/sys/vm/user_reserve_kbytes;
-echo "8192" > /proc/sys/vm/admin_reserve_kbytes;
+echo "0" > /proc/sys/vm/admin_reserve_kbytes;
 
 $BB rm /data/.halaszk/customconfig.xml
 $BB rm /data/.halaszk/action.cache

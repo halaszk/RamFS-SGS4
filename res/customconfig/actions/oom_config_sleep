@@ -1,7 +1,7 @@
 #!/sbin/busybox sh
 
-PROFILE=`cat /data/.siyah/.active.profile`;
-. /data/.siyah/$PROFILE.profile;
+PROFILE=`cat /data/.halaszk/.active.profile`;
+. /data/.halaszk/$PROFILE.profile;
 
 # $1 - "oom_config_sleep"
 # $2 - value=

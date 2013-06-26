@@ -1,7 +1,7 @@
 #!/sbin/busybox sh
 export PATH="/res/customconfig/actions/push-actions:${PATH}";
 
-LOCK_FILE="/data/.siyah/restore_running";
+LOCK_FILE="/data/.halaszk/restore_running";
 
 if [ "a$2" == "a" ]; then
 	echo "$config_backup_restore";
@@ -13,32 +13,32 @@ fi;
 case "${config_backup_restore}" in
 	3)
 		file2="/res/customconfig/battery.profile";
-		echo "battery" > /data/.siyah/.active.profile;
+		echo "battery" > /data/.halaszk/.active.profile;
 		config_backup_restore=2;
 	;;
 	4)
 		file2="/res/customconfig/default.profile";
-		echo "default" > /data/.siyah/.active.profile;
+		echo "default" > /data/.halaszk/.active.profile;
 		config_backup_restore=2;
 	;;
 	5)
 		file2="/res/customconfig/performance.profile";
-		echo "performance" > /data/.siyah/.active.profile;
+		echo "performance" > /data/.halaszk/.active.profile;
 		config_backup_restore=2;
 	;;
 	6)
 		file2="/res/customconfig/extreme_battery.profile";
-		echo "extreme_battery" > /data/.siyah/.active.profile;
+		echo "extreme_battery" > /data/.halaszk/.active.profile;
 		config_backup_restore=2;
 	;;
 	7)
 		file2="/res/customconfig/extreme_performance.profile";
-		echo "extreme_performance" > /data/.siyah/.active.profile;
+		echo "extreme_performance" > /data/.halaszk/.active.profile;
 		config_backup_restore=2;
 	;;
 	*)
-		PROFILE=`cat /data/.siyah/.active.profile`;
-		file2="/data/.siyah/$PROFILE.profile_backup";
+		PROFILE=`cat /data/.halaszk/.active.profile`;
+		file2="/data/.halaszk/$PROFILE.profile_backup";
 		# if someone full wipe the system, then use the profile_backup from sd-card
 		if [ ! -f $file2 ]; then
 			file2="/sdcard/$PROFILE.profile_backup";
@@ -47,17 +47,17 @@ case "${config_backup_restore}" in
 esac;
 
 # check again for profile, maybe we have changed it ...
-PROFILE=`cat /data/.siyah/.active.profile`;
+PROFILE=`cat /data/.halaszk/.active.profile`;
 
 case "${config_backup_restore}" in
 	1)
 		echo "Backup config file ...";
-		cp /data/.siyah/$PROFILE.profile /data/.siyah/$PROFILE.profile_backup;
-		cp /data/.siyah/$PROFILE.profile /sdcard/$PROFILE.profile_backup;
+		cp /data/.halaszk/$PROFILE.profile /data/.halaszk/$PROFILE.profile_backup;
+		cp /data/.halaszk/$PROFILE.profile /sdcard/$PROFILE.profile_backup;
 		echo "Backup Done!";
 	;;
 	2)
-		file1="/data/.siyah/${PROFILE}.profile";
+		file1="/data/.halaszk/${PROFILE}.profile";
 
 		if [ ! -f $file1 ] || [ ! -f $file2 ]; then
 			echo "File not found!";
