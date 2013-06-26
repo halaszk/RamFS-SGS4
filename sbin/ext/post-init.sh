@@ -52,15 +52,15 @@ for i in /sys/block/*/queue/add_random;do echo 0 > $i;done
 
 echo "0" > /proc/sys/kernel/randomize_va_space;
 
-echo "0x0FA4 0x0404 0x0170 0x1C02 0xF3D6 0x040A 0x0F31 0x1977 0xF45E 0x040A 0x114C 0x1206 0xF740 0x040A 0x1CB6 0x08C0 0x0630 0x4000" > /sys/class/misc/wolfson_control/eq_sp_freqs;
+echo "0x0FA4 0x0404 0x0170 0x1DB9 0xF233 0x040B 0x08B6 0x1977 0xF45E 0x040A 0x114C 0x0B43 0xF7FA 0x040A 0x1F97 0xF41A 0x0400 0x1068" > /sys/class/misc/wolfson_control/eq_sp_freqs;
 
-echo 11 > /sys/class/misc/wolfson_control/eq_sp_gain_1;
-echo -7 > /sys/class/misc/wolfson_control/eq_sp_gain_2;
-echo 8 > /sys/class/misc/wolfson_control/eq_sp_gain_3;
-echo -9 > /sys/class/misc/wolfson_control/eq_sp_gain_4;
-echo -6 > /sys/class/misc/wolfson_control/eq_sp_gain_5;
+echo 11 > /sys/class/misc/wolfson_control/eq_sp_gain_1
+echo -7 > /sys/class/misc/wolfson_control/eq_sp_gain_2
+echo 4 > /sys/class/misc/wolfson_control/eq_sp_gain_3
+echo -10 > /sys/class/misc/wolfson_control/eq_sp_gain_4
+echo -0 > /sys/class/misc/wolfson_control/eq_sp_gain_5
 
-echo 1 > /sys/class/misc/wolfson_control/switch_eq_speaker;
+echo 1 > /sys/class/misc/wolfson_control/switch_eq_speaker
 
 # allow user and admin to use all free mem.
 echo "0" > /proc/sys/vm/user_reserve_kbytes;
