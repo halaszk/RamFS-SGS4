@@ -726,7 +726,6 @@ sleep $wakeup_boost;
 fi;
 }
 
-
 # boost CPU power for fast and no lag wakeup
 MEGA_BOOST_CPU_TWEAKS()
 {
@@ -903,7 +902,7 @@ AWAKE_MODE()
 	MEGA_BOOST_CPU_TWEAKS;
 
 	#restore normal max freq after call or sleep ending
-	echo "$scaling_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+#	echo "$scaling_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 
 	if [ "$cortexbrain_ksm_control" == on ]; then
 	ADJUST_KSM;
@@ -1050,7 +1049,7 @@ SLEEP_MODE()
 	else
 
 	# reduce CPU speed in call mode (no overheating under call)
-	echo "600000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+#	echo "600000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 		
 	log -p i -t $FILE_NAME "*** On Call! SLEEP aborted, Reduced CPU speed to 600MHz! ***";
 

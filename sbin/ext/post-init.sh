@@ -17,7 +17,7 @@ done;PIDOFINIT=`pgrep -f "/sbin/ext/post-init.sh"`;
 
 if [ ! -f /system/xbin/su ]; then
 $BB mv  /res/su /system/xbin/su
-fi
+fi;
 
 $BB chown 0.0 /system/xbin/su
 $BB chmod 06755 /system/xbin/su
@@ -25,7 +25,7 @@ symlink /system/xbin/su /system/bin/su
 
 if [ ! -f /system/app/Superuser.apk ]; then
 $BB mv /res/Superuser.apk /system/app/Superuser.apk
-fi
+fi;
 
 $BB chown 0.0 /system/app/Superuser.apk
 $BB chmod 0644 /system/app/Superuser.apk
@@ -33,18 +33,18 @@ $BB chmod 0644 /system/app/Superuser.apk
 if [ ! -f /system/xbin/busybox ]; then
 $BB ln -s /sbin/busybox /system/xbin/busybox
 $BB ln -s /sbin/busybox /system/xbin/pkill
-fi
+fi;
 
 if [ ! -f /system/bin/busybox ]; then
 $BB ln -s /sbin/busybox /system/bin/busybox
 $BB ln -s /sbin/busybox /system/bin/pkill
-fi
+fi;
 
 if [ ! -f /system/app/STweaks.apk ]; then
  $BB cat /res/STweaks.apk > /system/app/STweaks.apk
  $BB chown 0.0 /system/app/STweaks.apk
  $BB chmod 644 /system/app/STweaks.apk
-fi
+fi;
 
 echo "2" > /sys/devices/system/cpu/sched_mc_power_savings;
 
@@ -61,10 +61,6 @@ echo -10 > /sys/class/misc/wolfson_control/eq_sp_gain_4
 echo -0 > /sys/class/misc/wolfson_control/eq_sp_gain_5
 
 echo 1 > /sys/class/misc/wolfson_control/switch_eq_speaker
-
-# allow user and admin to use all free mem.
-echo "0" > /proc/sys/vm/user_reserve_kbytes;
-echo "0" > /proc/sys/vm/admin_reserve_kbytes;
 
 $BB rm /data/.halaszk/customconfig.xml
 $BB rm /data/.halaszk/action.cache
@@ -87,8 +83,7 @@ read_config;
 
 /system/bin/setprop pm.sleep_mode 1
 /system/bin/setprop ro.ril.disable.power.collapse 0
-/system/bin/setprop wifi.supplicant_scan_interval 360
-
+/system/bin/setprop ro.telephony.call_ring.delay 1000 
 sync
 
 ######################################
