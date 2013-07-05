@@ -76,8 +76,44 @@ echo '
              <spinnerItem name="Single core mode" value="1"/> 
       </spinner>
     </settingsPane>
-  </settingsTab>
+  </settingsTab>' >> $XML
 
+echo '
+<settingsTab name="GPU">
+    <settingsPane description="Apply the settings on boot only if the desired settings prove to be stable, else the device ends up in a boot-loop. If turned off, the displayed values do not correspond the current live values but the saved profile values, some inconsistencies may occur on applying." 
+                  name="GPU control switch">
+      <checkbox description="If enabled, the below settings will be applied at boot." 
+                name="Set GPU settings on boot" 
+                action="controlswitch GPU" 
+                label="Set on boot"/>
+    </settingsPane>' >> $XML
+echo '
+    <settingsPane description="By editing the following configurables you can change the performance behaviour of the GPU." 
+                  name="GPU scaling settings">' >> $XML
+echo "
+      <spinner description=\"Set the maximum freqency the GPU scales up to. Default: `cat /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_max_lock`\" 
+               name=\"GPU max frequency\" 
+               action=\"gpugeneric /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_max_lock\">" >> $XML
+`
+while read FREQ; do
+  echo "<spinnerItem name=\"'$FREQ' MHz\" value=\"'$FREQ'\"/>" >> $XML
+done < /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_table
+`
+echo '
+      </spinner>
+    </settingsPane>
+
+    <settingsPane description="" name="GPU voltage control">' >> $XML
+`
+while read FREQ VOLT; do
+  echo '<seekBar  description="Default voltage: '$VOLT'" name="'$FREQ' MHz step" action="gpuvolt '$FREQ'" unit="µV" min="600000" reversed="false" step="6250" max="1150000"/>' >> $XML
+
+done < /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_volt_table
+`
+echo '
+    </settingsPane>
+</settingsTab>' >> $XML
+echo '
   <settingsTab name="Audio">
     <settingsPane description="Headphone amplification increases volume only on headphones and headsets. The controlled input is the digital input volume for the audio DAC." 
 		  name="Headphone Amplification">
@@ -95,9 +131,7 @@ echo '
                 name="Mono mixer" 
                 action="generic01 /sys/class/misc/wolfson_control/switch_hp_mono" 
                 label="Enable mono output"/>
-
     </settingsPane>
-
 
     <settingsPane description="Speaker amplification increases volume on the external speaker and earpiece. Speaker volumes are expressed as deltas to Samsungs audio profiles, so not to completely override them." 
 		name="Speaker Amplification">
@@ -205,6 +239,26 @@ echo '
                 name="SD card read-ahead" 
                 action="generictag sd /sys/block/mmcblk1/queue/read_ahead_kb"
                 unit="kB" min="128" reversed="false" step="128" max="2048"/>
+
+    </settingsPane>
+
+    <settingsPane name="Virtual NAND swap" 
+                  description="VNSwap is a virtual backing device on the system memory. If active, it will be used as a swap partition">
+
+      <seekBar  description="The disk size represents the amount of data allowed to fit into the ramdisk." 
+                name="VNSwap disk size" 
+                action="vnswap"
+                unit="mB" min="0" reversed="false" step="8" max="300"/>
+
+      <seekBar  description="ZSwap memory pool percentage of main memory that may be used as compressed page cache." 
+                name="ZSwap memory pool" 
+                action="generic /sys/module/zswap/parameters/max_pool_percent"
+                unit="%" min="0" reversed="false" step="1" max="50"/> 
+
+      <seekBar  description="A low value means the kernel will try to avoid swapping as much as possible where a higher value instead will make the kernel aggressively try to use swap space." 
+                name="Virtual machine swappiness" 
+                action="generic /proc/sys/vm/swappiness"
+                unit="%" min="0" reversed="false" step="1" max="200"/>
 
     </settingsPane>
 
@@ -469,20 +523,6 @@ echo '
 	<settingsPane description="Here you can tune memory and OOM (low mem management) settings managed by Kernel." name="Memory Tuning">
 		<checkbox description="Enable or Disable 'Memory-Tweaks'. (To update after change REBOOT)"
 					name="Memory-Tweaks" action="generic_cortex /tmp/cortexbrain_memory" label="Memory-Tweaks"/>
-		<spinner description="If you have enabled swap, then the higher a number set here, the more the system will swap. (Default: 0)"
-                        name="swappiness" action="generic /proc/sys/vm/swappiness">
-            <spinnerItem name="0" value="0"/>
-            <spinnerItem name="10" value="10"/>                                                                                                 $
-            <spinnerItem name="20" value="20"/>
-            <spinnerItem name="30" value="30"/>
-            <spinnerItem name="40" value="40"/>
-            <spinnerItem name="50" value="50"/>
-            <spinnerItem name="60" value="60"/>
-            <spinnerItem name="70" value="70"/>
-            <spinnerItem name="80" value="80"/>
-            <spinnerItem name="90" value="90"/>
-            <spinnerItem name="100" value="100"/>
-        </spinner>
 		<checkbox description="Enable or Disable 'LMKILLER-Control'. This functions enabled or disabled OOM Level Tuning ..."
 					name="LMKILLER-Control" action="generic_cortex /tmp/cortexbrain_lmkiller" label="LMKILLER-Control"/>
 		<spinner description="Here you can set the level of low mem managemet by kernel lowmemkiller function, more aggressive, then more free RAM but more killed apps"
