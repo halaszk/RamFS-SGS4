@@ -554,90 +554,6 @@ LOGGER()
 	log -p i -t $FILE_NAME "*** LOGGER ***: ${state}";
 }
 
-# ==============================================================
-# KSM-TWEAKS
-# ==============================================================
-if [ "$cortexbrain_ksm_control" == on ]; then
-	KSM_NPAGES_BOOST=300;
-	KSM_NPAGES_DECAY=50;
-
-	KSM_NPAGES_MIN=32;
-	KSM_NPAGES_MAX=1000;
-	KSM_SLEEP_MSEC=200;
-	KSM_SLEEP_MIN=2000;
-
-	KSM_THRES_COEF=20;
-	KSM_THRES_CONST=2048;
-
-	KSM_NPAGES=0;
-	KSM_TOTAL=$(awk '/^MemTotal:/ {print $2}' /proc/meminfo);
-	KSM_THRES=$(( $KSM_TOTAL * $KSM_THRES_COEF / 100 ));
-
-	if [ $KSM_THRES_CONST -gt $KSM_THRES ]; then
-		KSM_THRES=$KSM_THRES_CONST;
-	fi;
-
-	KSM_TOTAL=$(( $KSM_TOTAL / 1024 ));
-	KSM_SLEEP=$(( $KSM_SLEEP_MSEC * 16 * 1024 / $KSM_TOTAL ));
-
-	if [ $KSM_SLEEP -le $KSM_SLEEP_MIN ]; then
-		KSM_SLEEP=$KSM_SLEEP_MIN;
-	fi;
-
-	KSMCTL()
-	{
-		case x${1} in
-			xstop)
-				log -p i -t $FILE_NAME "*** ksm: stop ***";
-				echo 0 > /sys/kernel/mm/ksm/run;
-			;;
-			xstart)
-				log -p i -t $FILE_NAME "*** ksm: start ${2} ${3} ***";
-				echo ${2} > /sys/kernel/mm/ksm/pages_to_scan;
-				echo ${3} > /sys/kernel/mm/ksm/sleep_millisecs;
-				echo 1 > /sys/kernel/mm/ksm/run;
-				renice -n 10 -p "$(pidof ksmd)";
-			;;
-			esac
-	}
-
-	INCREASE_NPAGES()
-	{
-		local delta=${1:-0};
-
-		KSM_NPAGES=$(( $KSM_NPAGES + $delta ));
-		if [ $KSM_NPAGES -lt $KSM_NPAGES_MIN ]; then
-			KSM_NPAGES=$KSM_NPAGES_MIN;
-		elif [ $KSM_NPAGES -gt $KSM_NPAGES_MAX ]; then
-			KSM_NPAGES=$KSM_NPAGES_MAX;
-		fi;
-
-		echo $KSM_NPAGES;
-	}
-
-	ADJUST_KSM()
-	{
-		local free=$(awk '/^(MemFree|Buffers|Cached):/ {free += $2}; END {print free}' /proc/meminfo);
-
-		if [ $free -gt $KSM_THRES ]; then
-			npages=$(INCREASE_NPAGES ${KSM_NPAGES_BOOST});
-			KSMCTL "stop";
-
-			log -p i -t $FILE_NAME "*** ksm: $free > $KSM_THRES ***";
-
-			return 1;
-		else
-			npages=$(INCREASE_NPAGES $KSM_NPAGES_DECAY);
-			KSMCTL "start" $KSM_NPAGES $KSM_SLEEP;
-
-			log -p i -t $FILE_NAME "*** ksm: $free < $KSM_THRES ***"
-
-			return 0;
-		fi;
-	}
-	ADJUST_KSM;
-fi;
-
 WIFI_PM()
 {
 	local state="$1";
@@ -904,10 +820,6 @@ AWAKE_MODE()
 	#restore normal max freq after call or sleep ending
 #	echo "$scaling_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 
-	if [ "$cortexbrain_ksm_control" == on ]; then
-	ADJUST_KSM;
-	fi;
-	
 	WAKEUP_BOOST_DELAY;
 	
 	echo "$AWAKE_LAPTOP_MODE" > /proc/sys/vm/laptop_mode;
@@ -1022,12 +934,6 @@ SLEEP_MODE()
 
 	WIFI_PM "sleep";
 
-	if [ "$cortexbrain_ksm_control" == on ]; then
-			KSMCTL "stop";
-		else
-			echo 2 > /sys/kernel/mm/ksm/run;
-	fi;
-	
 	IO_SCHEDULER "sleep";
 
 	VFS_CACHE_PRESSURE "sleep";

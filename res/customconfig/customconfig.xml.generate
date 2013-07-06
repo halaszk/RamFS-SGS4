@@ -96,7 +96,7 @@ echo "
                action=\"gpugeneric /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_max_lock\">" >> $XML
 `
 while read FREQ; do
-  echo "<spinnerItem name=\"'$FREQ' MHz\" value=\"'$FREQ'\"/>" >> $XML
+  echo "<spinnerItem name=\"$FREQ MHz\" value=\"$FREQ\"/>" >> $XML
 done < /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_table
 `
 echo '
@@ -248,7 +248,7 @@ echo '
       <seekBar  description="The disk size represents the amount of data allowed to fit into the ramdisk." 
                 name="VNSwap disk size" 
                 action="vnswap"
-                unit="mB" min="0" reversed="false" step="8" max="300"/>
+                unit="mB" min="0" reversed="false" step="5" max="300"/>
 
       <seekBar  description="ZSwap memory pool percentage of main memory that may be used as compressed page cache." 
                 name="ZSwap memory pool" 
@@ -559,9 +559,6 @@ echo '
 			<spinnerItem name="Set ZRAM OFF!" value="4"/> 
 		</spinner>
 			<button description="ZRAM check for active state" name="ZRAM STATS" action="push-actions/zramstats" label="ZRAM STATS"/>
-			<button description="KSM check for active state" name="KSM STATS" action="push-actions/ksmstats" label="KSM STATS"/>
-			<checkbox description="Enable or Disable 'KSM-Control'. This merge some memory but need cpu-power ..." 
-				name="KSM-Control" action="generic_cortex /tmp/cortexbrain_ksm_control" label="KSM-Control"/>
   	</settingsPane>
 		
   </settingsTab>

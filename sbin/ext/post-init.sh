@@ -62,10 +62,30 @@ echo -0 > /sys/class/misc/wolfson_control/eq_sp_gain_5
 
 echo 1 > /sys/class/misc/wolfson_control/switch_eq_speaker
 
-echo 480 > /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_max_lock
+echo 532 > /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_max_lock
 
-$BB rm /data/.halaszk/customconfig.xml
-$BB rm /data/.halaszk/action.cache
+#governor tweaks
+echo "1" > "/sys/devices/system/cpu/cpufreq/ondemand/game_mode";
+echo "1" > "/sys/devices/system/cpu/cpufreq/ondemand/io_is_busy";
+echo "80000" > "/sys/devices/system/cpu/cpufreq/ondemand/sampling_rate";
+echo "1" > "/sys/devices/system/cpu/cpufreq/ondemand/boost_mode";
+echo "300000" > "/sys/devices/system/cpu/cpufreq/ondemand/up_step_level_l";
+echo "500000" > "/sys/devices/system/cpu/cpufreq/ondemand/up_step_level_b";
+echo "500000" > "/sys/devices/system/cpu/cpufreq/ondemand/high_freq_zone";
+echo "90" > "/sys/devices/system/cpu/cpufreq/ondemand/up_threshold_h";
+echo "90" > "/sys/devices/system/cpu/cpufreq/ondemand/up_threshold_l";
+echo "2" > "/sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor";
+echo "1700000" > "/sys/devices/system/cpu/cpufreq/ondemand/max_freq_blank";
+echo "1" > "/sys/devices/system/cpu/cpufreq/ondemand/ignore_nice_load";
+echo "40" > "/sys/devices/system/cpu/cpufreq/ondemand/powersave_bias";
+
+echo "400000" > "/sys/devices/system/cpu/cpufreq/ondemand/up_step_level_l";
+echo "300000" > "/sys/devices/system/cpu/cpufreq/ondemand/down_step_level";
+echo "95" > "/sys/devices/system/cpu/cpufreq/ondemand/up_threshold_h";
+echo "95" > "/sys/devices/system/cpu/cpufreq/ondemand/up_threshold_l";
+
+$BB rm /data/.halaszk/customconfig.xml;
+$BB rm /data/.halaszk/action.cache;
 
 # reset config-backup-restore
 if [ -f /data/.halaszk/restore_running ]; then
@@ -78,15 +98,15 @@ for p in $PROFILES; do
 $BB cp $p $p.test;
 done;
 
-. /res/customconfig/customconfig-helper
+. /res/customconfig/customconfig-helper;
 
 read_defaults;
 read_config;
 
-/system/bin/setprop pm.sleep_mode 1
-/system/bin/setprop ro.ril.disable.power.collapse 0
-/system/bin/setprop ro.telephony.call_ring.delay 1000 
-sync
+/system/bin/setprop pm.sleep_mode 1;
+/system/bin/setprop ro.ril.disable.power.collapse 0;
+/system/bin/setprop ro.telephony.call_ring.delay 1000; 
+sync;
 
 ######################################
 # Loading Modules
@@ -142,14 +162,17 @@ $BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
 pkill -f "com.gokhanmoral.stweaks.app";
 $BB rm -f /data/.halaszk/booting;
 
-$BB mount -o remount,rw /system;
-$BB mount -o remount,rw /;
-
 if [ $cortexbrain_lmkiller == on ]; then
 # correct oom tuning, if changed by apps/rom
 $BB sh /res/uci.sh oom_config_screen_on $oom_config_screen_on;
 $BB sh /res/uci.sh oom_config_screen_off $oom_config_screen_off;
 fi;
-##### init scripts #####
 
-$BB sh /sbin/ext/run-init-scripts.sh;
+##### init scripts #####
+if [ -d /system/etc/init.d ]; then
+  /sbin/busybox  run-parts /system/etc/init.d
+fi;
+
+/sbin/busybox mount -t rootfs -o remount,ro rootfs
+mount -o remount,ro /system
+

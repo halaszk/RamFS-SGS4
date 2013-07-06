@@ -30,7 +30,6 @@ cortexbrain_kernel_tweaks=on
 cortexbrain_io=on
 cortexbrain_wifi=off
 cortexbrain_wifi_tx=8
-cortexbrain_ksm_control=off
 oom_config=medium
 oom_config_sleep=medium
 auto_mount_sd=off
