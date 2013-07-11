@@ -38,6 +38,16 @@ echo "
 
     </settingsPane>" >> $XML
 
+echo "
+    <settingsPane description=\"IKS scaling\" name=\"In-kernel-switcher frequency controls.\">
+      <seekbar description=\"Set the maximum freqency of the little cores. Default: `expr \`cat /sys/devices/system/cpu/cpufreq/iks-cpufreq/CA7_max_freq\` / 1000` MHz.\"
+               name=\"A7 max frequency\"
+               action=\"cpugeneric /sys/devices/system/cpu/cpufreq/iks-cpufreq/CA7_max_freq\"
+               unit=\"KHz\" reversed=\"false\" step=\"50000\"
+               min=\"600000\"
+               max=\"750000\" />
+    </settingsPane>" >> $XML
+
 echo '
     <settingsPane description="Decreasing voltage will lower power consumption of the CPU. Increasing it on overclocked frequencies improves stability. Too low voltage may cause instabilities and freezes. The Exynos 5410 undervolts automatically when the thermal sensor detects a cold state: the real voltage applied in that case is 75mV below the configured values." 
                   name="CPU voltage control">
@@ -48,26 +58,30 @@ echo '
     </settingsPane>
 
     <settingsPane description="" name="big cores">' >> $XML
-
+`
 while read FREQ UVOLT; do
-  if [ "$FREQ" == "600" ]; then
+  if [ "$FREQ" == "750" ]; then
     echo '</settingsPane> <settingsPane description="" name="LITTLE cores">' >> $XML
   fi
 
-  echo "<seekBar  description=\"Default voltage: $UVOLTµV\" name=\"" >> $XML
+  echo '<seekBar  description="Default voltage: '$UVOLT' µV"' >> $XML
 
-  if [ $FREQ -lt 700 ]; then
-    echo `expr ${FREQ} \* 2` >> $XML
+  if [ $FREQ -lt 751 ]; then
+    echo  'name="'\`expr $FREQ \* 2\`' MHz step"' >> $XML
   else
-     echo ${FREQ} >> $XML
+    echo  'name="'$FREQ' MHz step"' >> $XML
   fi
 
-  echo " MHz step\" 
-                action=\"cpuvolt ${FREQ}\"
-                unit=\" µV\" min=\"600000\" reversed=\"false\" step=\"6250\" max=\"1350000\"/>" >> $XML
-  CPUFREQLIST="$CPUFREQLIST $FREQ"
-done < /sys/devices/system/cpu/cpu0/cpufreq/UV_uV_table
+  echo 'action="cpuvolt '${FREQ}'" unit=" µV" min="700000" reversed="false" step="6250" ' >> $XML
 
+  if [ $FREQ -lt 751 ]; then
+    echo 'max="1362500"/>' >> $XML
+  else
+    echo 'max="1312500"/>' >> $XML
+  fi
+
+done < /sys/devices/system/cpu/cpu0/cpufreq/UV_uV_table
+`
 echo '
 	 <spinner description="Sets the number of CPUs to be used in hotplugging" name="Max CPU Lock" action="generic /sys/power/cpucore_max_num_limit">
              <spinnerItem name="Quad core mode" value="4"/> 

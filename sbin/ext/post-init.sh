@@ -56,26 +56,6 @@ echo 1 > /sys/class/misc/wolfson_control/switch_eq_speaker
 
 echo 532 > /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_max_lock
 
-#governor tweaks
-echo "1" > "/sys/devices/system/cpu/cpufreq/ondemand/game_mode";
-echo "1" > "/sys/devices/system/cpu/cpufreq/ondemand/io_is_busy";
-echo "80000" > "/sys/devices/system/cpu/cpufreq/ondemand/sampling_rate";
-echo "1" > "/sys/devices/system/cpu/cpufreq/ondemand/boost_mode";
-echo "300000" > "/sys/devices/system/cpu/cpufreq/ondemand/up_step_level_l";
-echo "500000" > "/sys/devices/system/cpu/cpufreq/ondemand/up_step_level_b";
-echo "500000" > "/sys/devices/system/cpu/cpufreq/ondemand/high_freq_zone";
-echo "90" > "/sys/devices/system/cpu/cpufreq/ondemand/up_threshold_h";
-echo "90" > "/sys/devices/system/cpu/cpufreq/ondemand/up_threshold_l";
-echo "2" > "/sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor";
-echo "1700000" > "/sys/devices/system/cpu/cpufreq/ondemand/max_freq_blank";
-echo "1" > "/sys/devices/system/cpu/cpufreq/ondemand/ignore_nice_load";
-echo "40" > "/sys/devices/system/cpu/cpufreq/ondemand/powersave_bias";
-
-echo "400000" > "/sys/devices/system/cpu/cpufreq/ondemand/up_step_level_l";
-echo "300000" > "/sys/devices/system/cpu/cpufreq/ondemand/down_step_level";
-echo "95" > "/sys/devices/system/cpu/cpufreq/ondemand/up_threshold_h";
-echo "95" > "/sys/devices/system/cpu/cpufreq/ondemand/up_threshold_l";
-
 $BB rm /data/.halaszk/customconfig.xml;
 $BB rm /data/.halaszk/action.cache;
 
@@ -119,11 +99,6 @@ chmod 777 /mnt/ntfs
 mount -o mode=0777,gid=1000 -t tmpfs tmpfs /mnt/ntfs
 mount -o remount,ro /
 
-
-#echo "20" > /proc/sys/vm/dirty_background_ratio
-#echo "80" > /proc/sys/vm/dirty_ratio
-#echo "100" > /proc/sys/vm/swappiness
-#echo "120" > /proc/sys/vm/vfs_cache_pressure
 
 # Cortex parent should be ROOT/INIT and not STweaks
 nohup /sbin/ext/cortexbrain-tune.sh; 
