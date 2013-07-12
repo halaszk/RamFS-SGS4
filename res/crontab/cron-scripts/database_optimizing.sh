@@ -5,10 +5,6 @@
 	. /data/.halaszk/$PROFILE.profile;
 
 	if [ "$cron_db_optimizing" == "on" ]; then
-		while [ ! `cat /proc/loadavg | cut -c1-4` \< "3.50" ]; do
-			echo "Waiting For CPU to cool down";
-			sleep 30;
-		done;
 
 	        if [ ! -e /system/xbin/sqlite3 ]; then
                 mount -o remount,rw /;

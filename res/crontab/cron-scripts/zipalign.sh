@@ -8,11 +8,6 @@ PROFILE=`cat /data/.halaszk/.active.profile`;
 
 if [ "$cron_zipalign" == "on" ]; then
 
-	while [ ! `cat /proc/loadavg | cut -c1-4` \< "3.50" ]; do
-        	echo "Waiting For CPU to cool down";
-        	sleep 30;
-	done;
-
 	if [ `pgrep -f "zipalign" | wc -l` \< 5 ]; then
 		echo "Starting zipalign, it's will take 2min to finish, please wait.";
 		sleep 3;

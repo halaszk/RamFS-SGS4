@@ -662,6 +662,8 @@ echo '
 	
 	<checkbox description="If checked, Mass Storage SDCARDS will be Auto mounted when USB connected. then you can transfer files on high speed from PC to device. ON by Default."
 			name="Auto Mount USB Drives" action="generic_cortex /tmp/auto_mount_sd" label="Auto Mount USB Drives"/>
+		<checkbox description="Enable or Disable IO-Tweaks. (To update after change REBOOT)"
+                        name="IO-Tweaks" action="generic_cortex /tmp/cortexbrain_io" label="IO-Tweaks"/>
 		<checkbox description="Enable or Disable Firewall-Tweaks. (To update after change REBOOT)"
 			name="Firewall-Tweaks" action="generic_cortex /tmp/cortexbrain_firewall" label="Firewall-Tweaks"/>
 		<checkbox description="Enable or Disable TCP-Tweaks. (To update after change REBOOT)"
