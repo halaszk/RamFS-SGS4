@@ -63,9 +63,9 @@ IO_TWEAKS()
 				echo "0" > $z/queue/rotational;
 			fi;
 
-			if [ -e $z/queue/iostats ]; then
-				echo "0" > $z/queue/iostats;
-			fi;
+#			if [ -e $z/queue/iostats ]; then
+#				echo "0" > $z/queue/iostats;
+#			fi;
 
 			if [ -e $z/queue/rq_affinity ]; then
 				echo "1" > $z/queue/rq_affinity;
@@ -88,9 +88,9 @@ for i in $MMC; do
 				echo "0" > $i/queue/rotational;
 			fi;
 
-			if [ -e $i/queue/iostats ]; then
-				echo "0" > $i/queue/iostats;
-			fi;
+#			if [ -e $i/queue/iostats ]; then
+#				echo "0" > $i/queue/iostats;
+#			fi;
 
 			if [ -e $i/queue/read_ahead_kb ]; then
 				echo "$internal_read_ahead_kb" >  $i/queue/read_ahead_kb; # default: 128
