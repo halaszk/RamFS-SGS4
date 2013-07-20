@@ -314,10 +314,6 @@ echo '
   </settingsTab>
 
   <settingsTab name="Screen">
-<settingsPane description="Other screen related settings" name="Other Settings">
-		<checkbox description="LCD Power Reduce for backlight. If you like brighter screen in cost of battery drain, then turn it off. Default: On."
-			  name="LCD POWER" action="generic01 /sys/class/lcd/panel/power_reduce" label="LCD POWER REDUCE"/>
-    </settingsPane>
     <settingsPane description="mobile Digital Natural Image engine control. Samsungs hardware image post-processor controls virtually any image manipulation. All control master switches, if left as delta controls, will negate the sequence setting if checked. Master sequence has SCR and CS enabled by default."
 		  name="Global controls">
 
@@ -333,6 +329,15 @@ echo '
 
     </settingsPane>
 
+    <settingsPane description="i950X devices have an issue with the AMOLED controller in which, if individial pixels get power-gated for true black, they occur a latency delay when getting powered on again, resulting in a visible smearing effect. The following controls provide a method of applying a slight grey on the black channel to avoid this problem."
+		  name="Smearing fix">
+
+      <seekBar  description="RGB increase for 0.39% grey per step."
+		name="Black increase"
+                action="generic /sys/class/misc/mdnie/black_increase_value"
+                unit="" min="0" reversed="false" step="1" max="5"/>
+
+    </settingsPane>
 
     <settingsPane description="Uses mDNIe to bypass the backlight driver brightness and decrease brightness by reducing luminance on the the channel RGB values. It allows to reduce brightness beyond the stock minimum."
 		  name="Digital screen brightness">
@@ -356,6 +361,12 @@ echo '
 
     <settingsPane description=""
 		  name="Digital edge enhancement control">
+
+      <checkbox  description=""
+                name="Edge enhancement switch" 
+                action="generic01 /sys/class/misc/mdnie/hook_control/s_edge_enhancement"
+                label="Enable edge enhancement"/>
+
       <seekBar  description=""
 		name="Amount"
                 action="generic /sys/class/misc/mdnie/hook_control/de_positive_e"
@@ -412,124 +423,23 @@ echo '
                 unit="" min="-8" reversed="false" step="1" max="8"/>
 
     </settingsPane>
-
     <settingsPane description="The controls is divided in 8 channels, RGB, YCM, W and K. SCR controls are RGB modifiers on each of the controls altering the primary luminosities on that channel."
 		  name="White colour balance">
 
       <seekBar  description="Red in white"
 		name="Red"
                 action="generic /sys/class/misc/mdnie/hook_control/scr_white_red"
-                unit="" min="-64" reversed="false" step="1" max="16"/>
+                unit="" min="-16" reversed="false" step="1" max="16"/>
 
       <seekBar  description="Green in white"
 		name="Green"
                 action="generic /sys/class/misc/mdnie/hook_control/scr_white_green"
-                unit="" min="-64" reversed="false" step="1" max="16"/>
+                unit="" min="-16" reversed="false" step="1" max="16"/>
 
       <seekBar  description="Blue in white"
 		name="Blue"
                 action="generic /sys/class/misc/mdnie/hook_control/scr_white_blue"
-                unit="" min="-64" reversed="false" step="1" max="16"/>
-
-    </settingsPane>
-
-    <settingsPane description=""
-		  name="Primary (RGB) colour channels addends">
-
-      <seekBar  description="Red in red channel"
-		name="Red in red"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_red_red"
-                unit="" min="-64" reversed="false" step="1" max="32"/>
-
-      <seekBar  description="Green in red channel"
-		name="Green in red"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_red_green"
-                unit="" min="-32" reversed="false" step="1" max="64"/>
-
-      <seekBar  description="Blue in red channel"
-		name="Blue in red"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_red_blue"
-                unit="" min="-32" reversed="false" step="1" max="64"/>
-
-      <seekBar  description="Red in green channel"
-		name="Red in green"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_green_red"
-                unit="" min="-32" reversed="false" step="1" max="64"/>
-
-      <seekBar  description="Green in green channel"
-		name="Green in green"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_green_green"
-                unit="" min="-64" reversed="false" step="1" max="32"/>
-
-      <seekBar  description="Blue in green channel"
-		name="Blue in green"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_green_blue"
-                unit="" min="-32" reversed="false" step="1" max="64"/>
-
-      <seekBar  description="Red in blue channel"
-		name="Red in blue"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_blue_red"
-                unit="" min="-32" reversed="false" step="1" max="64"/>
-
-      <seekBar  description="Green in blue channel"
-		name="Green in blue"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_blue_green"
-                unit="" min="-32" reversed="false" step="1" max="64"/>
-
-      <seekBar  description="Blue in blue channel"
-		name="Blue in blue"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_blue_blue"
-                unit="" min="-64" reversed="false" step="1" max="32"/>
-
-    </settingsPane>
-
-    <settingsPane description=""
-		  name="Secondary (YCM) colour channels addends">
-
-      <seekBar  description="Red in yellow channel"
-		name="Red in yellow"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_yellow_red"
-                unit="" min="-64" reversed="false" step="1" max="32"/>
-
-      <seekBar  description="Green in yellow channel"
-		name="Green in yellow"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_yellow_green"
-                unit="" min="-64" reversed="false" step="1" max="32"/>
-
-      <seekBar  description="Blue in yellow channel"
-		name="Blue in yellow"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_yellow_blue"
-                unit="" min="-32" reversed="false" step="1" max="64"/>
-
-      <seekBar  description="Red in cyan channel"
-		name="Red in cyan"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_cyan_red"
-                unit="" min="-32" reversed="false" step="1" max="64"/>
-
-      <seekBar  description="Green in cyan channel"
-		name="Green in cyan"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_cyan_green"
-                unit="" min="-64" reversed="false" step="1" max="32"/>
-
-      <seekBar  description="Blue in cyan channel"
-		name="Blue in cyan"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_cyan_blue"
-                unit="" min="-64" reversed="false" step="1" max="32"/>
-
-      <seekBar  description="Red in magenta channel"
-		name="Red in magenta"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_magenta_red"
-                unit="" min="-64" reversed="false" step="1" max="32"/>
-
-      <seekBar  description="Green in magenta channel"
-		name="Green in magenta"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_magenta_green"
-                unit="" min="-32" reversed="false" step="1" max="64"/>
-
-      <seekBar  description="Blue in magenta channel"
-		name="Blue in magenta"
-                action="generic /sys/class/misc/mdnie/hook_control/scr_magenta_blue"
-                unit="" min="-64" reversed="false" step="1" max="32"/>
+                unit="" min="-16" reversed="false" step="1" max="16"/>
 
     </settingsPane>
   </settingsTab>
@@ -634,17 +544,6 @@ echo '
 
 		<button description="Clean RAM Cache, this will release all cached and buffered RAM" name="CLEAN RAM CACHE" action="push-actions/clean_ram_cache" label="CLEAN RAM CACHE NOW"/>
 	  </settingsPane>
-	<settingsPane description="Here you can set ZRAM compressed memory tweaks for more free RAM. Settings managed by Kernel." name="Kernel ZRAM">
-		<spinner description="ZRAM Module settings. Here you can shut down ZRAM or add more compressed RAM for your system." 
-			name="ZRAM Settings" action="zram">
-			<spinnerItem name="Set ZRAM to 150MB" value="1"/> 
-			<spinnerItem name="Set ZRAM to 300MB (default)" value="2"/> 
-			<spinnerItem name="Set ZRAM to 600MB" value="3"/> 
-			<spinnerItem name="Set ZRAM OFF!" value="4"/> 
-		</spinner>
-			<button description="ZRAM check for active state" name="ZRAM STATS" action="push-actions/zramstats" label="ZRAM STATS"/>
-  	</settingsPane>
-		
   </settingsTab>
   <settingsTab name="Other">
 		<settingsPane description="Here you can activate Auto system: clean, tune, reconfig, resync, and much more" name="CRON TASKS MENU">

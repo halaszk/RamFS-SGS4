@@ -54,7 +54,7 @@ echo -0 > /sys/class/misc/wolfson_control/eq_sp_gain_5
 
 echo 1 > /sys/class/misc/wolfson_control/switch_eq_speaker
 
-echo 532 > /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_max_lock
+echo 480 > /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_max_lock
 
 $BB rm /data/.halaszk/customconfig.xml;
 $BB rm /data/.halaszk/action.cache;
