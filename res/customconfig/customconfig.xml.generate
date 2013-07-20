@@ -637,6 +637,8 @@ echo '
 			name="Firewall-Tweaks" action="generic_cortex /tmp/cortexbrain_firewall" label="Firewall-Tweaks"/>
 		<checkbox description="Enable or Disable TCP-Tweaks. (To update after change REBOOT)"
 			name="TCP-Tweaks" action="generic_cortex /tmp/cortexbrain_tcp" label="TCP-Tweaks"/>
+		<checkbox description="Enable or Disable TCP-RAM-Tweaks (reboot needed)." 
+			name="TCP-RAM-Tweaks" action="generic_cortex /tmp/cortexbrain_tcp_ram" label="TCP-RAM-Tweaks"/>
 		<checkbox description="Enable or Disable IPv6 Network. (Default is OFF. To update after change, turn OFF screen and then turn it ON after 3sec!)"
 			name="IPv6 Tweaks" action="generic_cortex /tmp/cortexbrain_ipv6" label="IPv6"/>
 		<checkbox description="Enable or Disable CPU-WakeUP Tweaks. (To update after change, turn OFF screen and turn it ON after 3sec!)"

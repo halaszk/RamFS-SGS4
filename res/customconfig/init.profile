@@ -19,6 +19,7 @@ cortexbrain_background_process=1
 android_logger=auto
 cortexbrain_firewall=on
 cortexbrain_tcp=on
+cortexbrain_tcp_ram=off
 cortexbrain_ipv6=off
 cortexbrain_cpu=off
 cortexbrain_cpu_boost=off

@@ -412,105 +412,59 @@ MEMORY_TWEAKS;
 TCP_TWEAKS()
 {
 	if [ "$cortexbrain_tcp" == on ]; then
-
-	# Website Bypass
-	$PROP net.rmnet0.dns1=8.8.8.8;
-	$PROP net.rmnet0.dns2=8.8.4.4;
-	$PROP net.dns1=8.8.8.8;
-	$PROP net.dns2=8.8.4.4;
-
-		# =========
-	# 3G-2G and wifi network battery tweaks
-	$PROP ro.ril.enable.a52 0;
-	$PROP ro.ril.enable.a53 1;
-	$PROP ro.ril.fast.dormancy.timeout 3;
-	$PROP ro.ril.enable.sbm.feature 1;
-	$PROP ro.ril.enable.sdr 0;
-	$PROP ro.ril.qos.maxpdps 2;
-	$PROP ro.ril.hsxpa 2;
-	$PROP ro.ril.hsdpa.category 14;
-	$PROP ro.ril.hsupa.category 7;
-	$PROP ro.ril.hep 1;
-	$PROP ro.ril.enable.dtm 0;
-	$PROP ro.ril.enable.amr.wideband 1;
-	$PROP ro.ril.gprsclass 12;
-	$PROP ro.ril.avoid.pdp.overlap 1;
-	$PROP ro.ril.enable.prl.recognition 0;
-	$PROP ro.ril.def.agps.mode 2;
-	$PROP ro.ril.enable.managed.roaming 1;
-	$PROP ro.ril.enable.enhance.search 0;
-#	$PROP ro.ril.fast.dormancy.rule 1;
-	$PROP ro.ril.fd.scron.timeout 30;
-	$PROP ro.ril.fd.scroff.timeout 10;
-	$PROP ro.ril.emc.mode 2;
-	$PROP ro.ril.att.feature 0;
-	
-	# Wireless Speed Tweaks
-	$PROP net.tcp.buffersize.default=4096,87380,256960,4096,16384,256960;
-	$PROP net.tcp.buffersize.wifi=4096,87380,256960,4096,16384,256960;
-	$PROP net.tcp.buffersize.umts=4096,87380,256960,4096,16384,256960;
-	$PROP net.tcp.buffersize.gprs=4096,87380,256960,4096,16384,256960;
-	$PROP net.tcp.buffersize.edge=4096,87380,256960,4096,16384,256960;
-	$PROP net.ipv4.tcp_ecn=0;
-	$PROP net.ipv4.route.flush=1;
-	$PROP net.ipv4.tcp_rfc1337=1;
-	$PROP net.ipv4.ip_no_pmtu_disc=0;
-	$PROP net.ipv4.tcp_sack=1;
-	$PROP net.ipv4.tcp_fack=1;
-	$PROP net.ipv4.tcp_window_scaling=1;
-	$PROP net.ipv4.tcp_timestamps=1;
-	$PROP net.ipv4.tcp_rmem=4096 39000 187000;
-	$PROP net.ipv4.tcp_wmem=4096 39000 187000;
-	$PROP net.ipv4.tcp_mem=187000 187000 187000;
-	$PROP net.ipv4.tcp_no_metrics_save=1;
-	$PROP net.ipv4.tcp_moderate_rcvbuf=1;
-
-	echo "0" > /proc/sys/net/ipv4/tcp_timestamps;
-	echo "1" > /proc/sys/net/ipv4/tcp_tw_reuse;
-	echo "1" > /proc/sys/net/ipv4/tcp_sack;
-	echo "1" > /proc/sys/net/ipv4/tcp_dsack;
-	echo "1" > /proc/sys/net/ipv4/tcp_tw_recycle;
-	echo "1" > /proc/sys/net/ipv4/tcp_window_scaling;
-	echo "3" > /proc/sys/net/ipv4/tcp_keepalive_probes;
-	echo "20" > /proc/sys/net/ipv4/tcp_keepalive_intvl;
-	echo "30" > /proc/sys/net/ipv4/tcp_fin_timeout;
-	echo "1" > /proc/sys/net/ipv4/tcp_moderate_rcvbuf;
-	echo "1" > /proc/sys/net/ipv4/route/flush;
-	echo "6144" > /proc/sys/net/ipv4/udp_rmem_min;
-	echo "6144" > /proc/sys/net/ipv4/udp_wmem_min;
-	echo "1" > /proc/sys/net/ipv4/tcp_rfc1337;
-	echo "0" > /proc/sys/net/ipv4/ip_no_pmtu_disc;
-	echo "0" > /proc/sys/net/ipv4/tcp_ecn;
-	echo "6144 87380 2097152" > /proc/sys/net/ipv4/tcp_wmem;
-	echo "6144 87380 2097152" > /proc/sys/net/ipv4/tcp_rmem;
-	echo "1" > /proc/sys/net/ipv4/tcp_fack;
-	echo "2" > /proc/sys/net/ipv4/tcp_synack_retries;
-	echo "2" > /proc/sys/net/ipv4/tcp_syn_retries;
-	echo "1" > /proc/sys/net/ipv4/tcp_no_metrics_save;
-	echo "1800" > /proc/sys/net/ipv4/tcp_keepalive_time;
-	echo "0" > /proc/sys/net/ipv4/ip_forward;
-	echo "0" > /proc/sys/net/ipv4/conf/default/accept_source_route;
-	echo "0" > /proc/sys/net/ipv4/conf/all/accept_source_route;
-	echo "0" > /proc/sys/net/ipv4/conf/all/accept_redirects;
-	echo "0" > /proc/sys/net/ipv4/conf/default/accept_redirects;
-	echo "0" > /proc/sys/net/ipv4/conf/all/secure_redirects;
-	echo "0" > /proc/sys/net/ipv4/conf/default/secure_redirects;
-	echo "0" > /proc/sys/net/ipv4/ip_dynaddr;
-	echo "1440000" > /proc/sys/net/ipv4/tcp_max_tw_buckets;
-	echo "57344 57344 524288" > /proc/sys/net/ipv4/tcp_mem;
-	echo "1440000" > /proc/sys/net/ipv4/tcp_max_tw_buckets;
-#	echo "2097152" > /proc/sys/net/core/rmem_max;
-#	echo "2097152" > /proc/sys/net/core/wmem_max;
-#	echo "262144" > /proc/sys/net/core/rmem_default;
-	echo "262144" > /proc/sys/net/core/wmem_default;
-	echo "20480" > /proc/sys/net/core/optmem_max;
-	echo "2500" > /proc/sys/net/core/netdev_max_backlog;
-	echo "50" > /proc/sys/net/unix/max_dgram_qlen;
+		echo "0" > /proc/sys/net/ipv4/tcp_timestamps;
+		echo "1" > /proc/sys/net/ipv4/tcp_rfc1337;
+		echo "1" > /proc/sys/net/ipv4/tcp_workaround_signed_windows;
+		echo "1" > /proc/sys/net/ipv4/tcp_low_latency;
+		echo "1" > /proc/sys/net/ipv4/tcp_mtu_probing;
+		echo "2" > /proc/sys/net/ipv4/tcp_frto_response;
+		echo "1" > /proc/sys/net/ipv4/tcp_no_metrics_save;
+		echo "1" > /proc/sys/net/ipv4/tcp_tw_reuse;
+		echo "1" > /proc/sys/net/ipv4/tcp_tw_recycle;
+		echo "30" > /proc/sys/net/ipv4/tcp_fin_timeout;
+		echo "0" > /proc/sys/net/ipv4/tcp_ecn;
+		echo "5" > /proc/sys/net/ipv4/tcp_keepalive_probes;
+		echo "40" > /proc/sys/net/ipv4/tcp_keepalive_intvl;
+		echo "2500" > /proc/sys/net/core/netdev_max_backlog;
+		echo "1" > /proc/sys/net/ipv4/route/flush;
 
 		log -p i -t $FILE_NAME "*** TCP_TWEAKS ***: enabled";
-		return 0;
 	else
-		return 1;
+		echo "1" > /proc/sys/net/ipv4/tcp_timestamps;
+		echo "0" > /proc/sys/net/ipv4/tcp_rfc1337;
+		echo "0" > /proc/sys/net/ipv4/tcp_workaround_signed_windows;
+		echo "0" > /proc/sys/net/ipv4/tcp_low_latency;
+		echo "0" > /proc/sys/net/ipv4/tcp_mtu_probing;
+		echo "0" > /proc/sys/net/ipv4/tcp_frto_response;
+		echo "0" > /proc/sys/net/ipv4/tcp_no_metrics_save;
+		echo "0" > /proc/sys/net/ipv4/tcp_tw_reuse;
+		echo "0" > /proc/sys/net/ipv4/tcp_tw_recycle;
+		echo "60" > /proc/sys/net/ipv4/tcp_fin_timeout;
+		echo "2" > /proc/sys/net/ipv4/tcp_ecn;
+		echo "9" > /proc/sys/net/ipv4/tcp_keepalive_probes;
+		echo "75" > /proc/sys/net/ipv4/tcp_keepalive_intvl;
+		echo "1000" > /proc/sys/net/core/netdev_max_backlog;
+		echo "0" > /proc/sys/net/ipv4/route/flush;
+
+		log -p i -t $FILE_NAME "*** TCP_TWEAKS ***: disabled";
+	fi;
+
+	if [ "$cortexbrain_tcp_ram" == on ]; then
+		echo "4194304" > /proc/sys/net/core/wmem_max;
+		echo "4194304" > /proc/sys/net/core/rmem_max;
+		echo "20480" > /proc/sys/net/core/optmem_max;
+		echo "4096 87380 4194304" > /proc/sys/net/ipv4/tcp_wmem;
+		echo "4096 87380 4194304" > /proc/sys/net/ipv4/tcp_rmem;
+
+		log -p i -t $FILE_NAME "*** TCP_RAM_TWEAKS ***: enabled";
+	else
+		echo "131071" > /proc/sys/net/core/wmem_max;
+		echo "131071" > /proc/sys/net/core/rmem_max;
+		echo "10240" > /proc/sys/net/core/optmem_max;
+		echo "4096 16384 262144" > /proc/sys/net/ipv4/tcp_wmem;
+		echo "4096 87380 704512" > /proc/sys/net/ipv4/tcp_rmem;
+
+		log -p i -t $FILE_NAME "*** TCP_RAM_TWEAKS ***: disable";
 	fi;
 }
 TCP_TWEAKS;
@@ -527,9 +481,10 @@ FIREWALL_TWEAKS()
 		echo "1" > /proc/sys/net/ipv4/icmp_ignore_bogus_error_responses;
 
 		log -p i -t $FILE_NAME "*** FIREWALL_TWEAKS ***: enabled";
-		return 0;
-	else
+
 		return 1;
+	else
+		return 0;
 	fi;
 }
 FIREWALL_TWEAKS;
