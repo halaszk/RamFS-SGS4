@@ -256,26 +256,6 @@ echo '
 
     </settingsPane>
 
-    <settingsPane name="Virtual NAND swap" 
-                  description="VNSwap is a virtual backing device on the system memory. If active, it will be used as a swap partition">
-
-      <seekBar  description="The disk size represents the amount of data allowed to fit into the ramdisk." 
-                name="VNSwap disk size" 
-                action="vnswap"
-                unit="mB" min="0" reversed="false" step="5" max="300"/>
-
-      <seekBar  description="ZSwap memory pool percentage of main memory that may be used as compressed page cache." 
-                name="ZSwap memory pool" 
-                action="generic /sys/module/zswap/parameters/max_pool_percent"
-                unit="%" min="0" reversed="false" step="1" max="50"/> 
-
-      <seekBar  description="A low value means the kernel will try to avoid swapping as much as possible where a higher value instead will make the kernel aggressively try to use swap space." 
-                name="Virtual machine swappiness" 
-                action="generic /proc/sys/vm/swappiness"
-                unit="%" min="0" reversed="false" step="1" max="200"/>
-
-    </settingsPane>
-
 	   <settingsPane name="SD/MMC/SDIO Clock Scaling Attributes" 
                   description="Sysfs attributes to allow dynamic control of clock scaling parameters. These attributes are used to enable/disable clock scaling at runtime and change the up_threshold, down_threshold, and polling_interval values.">
 			<seekBar  description="Measured in milliseconds, this attribute defines how often we need to check the card usage and make decisions on frequency scaling."
@@ -543,7 +523,36 @@ echo '
 			name="Dirty ratio" action="generic /proc/sys/vm/dirty_ratio" unit="%" min="5" reversed="false" step="5" max="100"/>
 
 		<button description="Clean RAM Cache, this will release all cached and buffered RAM" name="CLEAN RAM CACHE" action="push-actions/clean_ram_cache" label="CLEAN RAM CACHE NOW"/>
-	  </settingsPane>
+	</settingsPane>
+		<settingsPane description="Here you can set ZRAM compressed memory tweaks for more free RAM. Settings managed by Kernel." name="Kernel ZRAM">
+		<spinner description="ZRAM Module settings. Here you can shut down ZRAM or add more compressed RAM for your system." 
+			name="ZRAM Settings" action="zram">
+			<spinnerItem name="Set ZRAM to 150MB" value="1"/> 
+			<spinnerItem name="Set ZRAM to 300MB (default)" value="2"/> 
+			<spinnerItem name="Set ZRAM to 600MB" value="3"/> 
+			<spinnerItem name="Set ZRAM OFF!" value="4"/> 
+		</spinner>
+			<button description="ZRAM check for active state" name="ZRAM STATS" action="push-actions/zramstats" label="ZRAM STATS"/>
+  	</settingsPane>
+    <settingsPane name="Virtual NAND swap" 
+                  description="VNSwap is a virtual backing device on the system memory. If active, it will be used as a swap partition">
+
+      <seekBar  description="The disk size represents the amount of data allowed to fit into the ramdisk." 
+                name="VNSwap disk size" 
+                action="vnswap"
+                unit="mB" min="0" reversed="false" step="5" max="300"/>
+
+      <seekBar  description="ZSwap memory pool percentage of main memory that may be used as compressed page cache." 
+                name="ZSwap memory pool" 
+                action="generic /sys/module/zswap/parameters/max_pool_percent"
+                unit="%" min="0" reversed="false" step="1" max="50"/> 
+
+      <seekBar  description="A low value means the kernel will try to avoid swapping as much as possible where a higher value instead will make the kernel aggressively try to use swap space." 
+                name="Virtual machine swappiness" 
+                action="generic /proc/sys/vm/swappiness"
+                unit="%" min="0" reversed="false" step="1" max="200"/>
+
+    </settingsPane>
   </settingsTab>
   <settingsTab name="Other">
 		<settingsPane description="Here you can activate Auto system: clean, tune, reconfig, resync, and much more" name="CRON TASKS MENU">
@@ -612,7 +621,7 @@ echo '
 
 	<settingsTab name="Tweaks">
     <settingsPane description="These settings control CFS (Complete Fair Scheduler) Task Scheduler Settings" name="CFS Settings">
-      <checkbox description="Disabling GENTLE_FAIR_SLEEPERS may give you better UI responsiveness." name="GENTLE_FAIR_SLEEPERS" action="schedfeat GENTLE_FAIR_SLEEPERS" label="GENTLE_FAIR_SLEEPERS"/>
+      <checkbox description="Disabling GENTLE_FAIR_SLEEPERS may give you better UI responsiveness." name="GENTLE_FAIR_SLEEPERS" action="generic01 sys/kernel/sched/gentle_fair_sleepers" label="GENTLE_FAIR_SLEEPERS"/>
       <checkbox description="Using ARCH_POWER enables the use of arm topology power functions instead of generic ones." name="ARCH_POWER" action="schedfeat ARCH_POWER" label="ARCH_POWER"/>
     </settingsPane>
 	<settingsPane description="Here you can manage cortexbrain-tune script" name="Automation Script tuning.">

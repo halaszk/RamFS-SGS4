@@ -56,6 +56,12 @@ echo 1 > /sys/class/misc/wolfson_control/switch_eq_speaker
 
 echo 480 > /sys/devices/platform/pvrsrvkm.0/sgx_dvfs_max_lock
 
+# Changes the contrast level for black background  (hardware level fix for screen smearing)
+ 
+echo 4 > /sys/class/misc/mdnie/hook_control/scr_black_red
+echo 4 > /sys/class/misc/mdnie/hook_control/scr_black_green
+echo 4 > /sys/class/misc/mdnie/hook_control/scr_black_blue
+
 $BB rm /data/.halaszk/customconfig.xml;
 $BB rm /data/.halaszk/action.cache;
 
