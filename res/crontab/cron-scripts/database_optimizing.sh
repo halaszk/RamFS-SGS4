@@ -9,8 +9,8 @@
 	        if [ ! -e /system/xbin/sqlite3 ]; then
                 mount -o remount,rw /;
                 mount -o remount,rw /system;
-                        cp /res/misc/sqlite3 /system/xbin/sqlite3;
-			cp /res/misc/libsqlite.so /system/xbin/libsqlite.so;
+                        cp /res/misc/sql/sqlite3 /system/xbin/sqlite3;
+			cp /res/misc/sql/libsqlite.so /system/xbin/libsqlite.so;
                         chmod 755 /system/xbin/sqlite3;
 			chmod 755 /system/lib/libsqlite.so;
                 fi;
