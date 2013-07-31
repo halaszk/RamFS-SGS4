@@ -13,12 +13,11 @@
 		# do clean cache only if cache uses 50% of free memory.
 		if [ "$MEM_USED_CALC" \> 50 ]; then
 
-			sync;
 			sysctl -w vm.drop_caches=3
 			sync;
 			sysctl -w vm.drop_caches=1
 			sync;
-			date +%H:%M-%D-%Z > /data/crontab/cron-clear-ram-cache;
+			date > /data/crontab/cron-clear-ram-cache;
 			echo "Cache above 50%! Cleaned RAM Cache" >> /data/crontab/cron-clear-ram-cache;
 		fi;
 	fi;

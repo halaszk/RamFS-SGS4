@@ -62,6 +62,7 @@ loglevel 3
 
 # Backward compatibility
     symlink /system/etc /etc
+    symlink /system/xbin/ /bin
     symlink /sys/kernel/debug /d
 
 # Right now vendor lives on the same filesystem as system,

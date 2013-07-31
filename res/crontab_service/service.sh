@@ -16,7 +16,6 @@ chmod 777 /system/etc/cron.d/crontabs/*;
 
 if [ "$JELLY" == 1 ]; then
 	echo "root:x:0:0::/system/etc/cron.d/crontabs:/sbin/sh" > /etc/passwd;
-else
 	if [ ! -e /var/spool/cron/crontabs/root ]; then
 		mkdir -p /var/spool/cron/crontabs/;
 		touch /var/spool/cron/crontabs/root;
@@ -41,16 +40,16 @@ chmod 777 /data/crontab/cron-scripts/*;
 if [ -e /system/xbin/busybox ]; then
 	/sbin/busybox chmod 6755 /system/xbin/busybox;
 	if [ "$JELLY" == 1 ]; then
-		nohup /system/xbin/busybox crond -c /system/etc/cron.d/crontabs/
+		nohup /system/xbin/busybox crond -c /system/etc/cron.d/crontabs/ -l 0 -L /data/cron.log
 	else
-		nohup /system/xbin/busybox crond -c /var/spool/cron/crontabs/
+		nohup /system/xbin/busybox crond -c /var/spool/cron/crontabs/ -l 0 -L /data/cron.log
 	fi;
 elif [ -e /system/bin/busybox ]; then
 	/sbin/busybox chmod 6755 /system/bin/busybox;
 	if [ "$JELLY" == 1 ]; then
-		nohup /system/bin/busybox crond -c /system/etc/cron.d/crontabs/
+		nohup /system/bin/busybox crond -c /system/etc/cron.d/crontabs/ -l 0 -L /data/cron.log
 	else
-		nohup /system/xbin/busybox crond -c /var/spool/cron/crontabs/
+		nohup /system/xbin/busybox crond -c /var/spool/cron/crontabs/ -l 0 -L /data/cron.log
 	fi;
 fi;
 
