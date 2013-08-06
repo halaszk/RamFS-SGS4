@@ -155,16 +155,16 @@ KERNEL_TWEAKS()
 			echo "0" > /proc/sys/vm/oom_kill_allocating_task;
 			echo "0" > /proc/sys/vm/panic_on_oom;
 			echo "120" > /proc/sys/kernel/panic;
-			if [ "$cortexbrain_memory" == on ]; then
-				echo "32 64" > /proc/sys/vm/lowmem_reserve_ratio;
-			fi;
+#			if [ "$cortexbrain_memory" == on ]; then
+#				echo "32 64" > /proc/sys/vm/lowmem_reserve_ratio;
+#			fi;
 		elif [ "${state}" == "sleep" ]; then
 			echo "0" > /proc/sys/vm/oom_kill_allocating_task;
 			echo "1" > /proc/sys/vm/panic_on_oom;
 			echo "0" > /proc/sys/kernel/panic;
-			if [ "$cortexbrain_memory" == on ]; then
-				echo "32 32" > /proc/sys/vm/lowmem_reserve_ratio;
-			fi;
+#			if [ "$cortexbrain_memory" == on ]; then
+#				echo "32 32" > /proc/sys/vm/lowmem_reserve_ratio;
+#			fi;
 		else
 			echo "0" > /proc/sys/vm/oom_kill_allocating_task;
 			echo "0" > /proc/sys/vm/panic_on_oom;
@@ -196,11 +196,6 @@ SYSTEM_TWEAKS()
 	$PROP windowsmgr.max_events_per_sec 240;
 	$PROP profiler.force_disable_err_rpt 1;
 	$PROP profiler.force_disable_ulog 1;
-
-	# Dialing Tweaks
-	$PROP ro.telephony.call_ring.delay=0;
-	$PROP ro.lge.proximity.delay=25;
-	$PROP mot.proximity.delay=25;
 
 	# more Tweaks
 	$PROP dalvik.vm.execution-mode int:jit;
@@ -392,11 +387,11 @@ MEMORY_TWEAKS()
 	if [ "$cortexbrain_memory" == on ]; then
 		echo "$dirty_background_ratio" > /proc/sys/vm/dirty_background_ratio; # default: 10
 		echo "$dirty_ratio" > /proc/sys/vm/dirty_ratio; # default: 20
-		echo "4" > /proc/sys/vm/min_free_order_shift; # default: 4
-		echo "0" > /proc/sys/vm/overcommit_memory; # default: 0
+	#	echo "4" > /proc/sys/vm/min_free_order_shift; # default: 4
+	#	echo "0" > /proc/sys/vm/overcommit_memory; # default: 0
 	#	echo "50" > /proc/sys/vm/overcommit_ratio; # default: 50
-		echo "3" > /proc/sys/vm/page-cluster; # default: 3
-		echo "8192" > /proc/sys/vm/min_free_kbytes;
+	#	echo "3" > /proc/sys/vm/page-cluster; # default: 3
+	#	echo "8192" > /proc/sys/vm/min_free_kbytes;
 	#	echo "16384" > /proc/sys/vm/mmap_min_addr; 
 
 		log -p i -t $FILE_NAME "*** MEMORY_TWEAKS ***: enabled";
