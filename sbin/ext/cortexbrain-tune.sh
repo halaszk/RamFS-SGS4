@@ -20,13 +20,13 @@ PROFILE=`cat /data/.halaszk/.active.profile`;
 
 FILE_NAME=$0;
 PIDOFCORTEX=$$;
-IWCONFIG=/sbin/iwconfig;
+IWCONFIG="/sbin/iwconfig";
 INTERFACE=wlan0;
 AWAKE_LAPTOP_MODE="0";
 SLEEP_LAPTOP_MODE="0";
-BB=/sbin/busybox;
-PROP=/system/bin/setprop;
-sqlite=/sbin/sqlite3;
+BB="/system/xbin/busybox";
+PROP="/system/bin/setprop";
+sqlite="/sbin/sqlite3";
 wifi_idle_wait=10000;
 # set initial vm.dirty vales
 #echo "2000" > /proc/sys/vm/dirty_writeback_centisecs;
@@ -155,16 +155,16 @@ KERNEL_TWEAKS()
 			echo "0" > /proc/sys/vm/oom_kill_allocating_task;
 			echo "0" > /proc/sys/vm/panic_on_oom;
 			echo "120" > /proc/sys/kernel/panic;
-#			if [ "$cortexbrain_memory" == on ]; then
-#				echo "32 64" > /proc/sys/vm/lowmem_reserve_ratio;
-#			fi;
+			if [ "$cortexbrain_memory" == on ]; then
+				echo "32 64" > /proc/sys/vm/lowmem_reserve_ratio;
+			fi;
 		elif [ "${state}" == "sleep" ]; then
 			echo "0" > /proc/sys/vm/oom_kill_allocating_task;
 			echo "1" > /proc/sys/vm/panic_on_oom;
 			echo "0" > /proc/sys/kernel/panic;
-#			if [ "$cortexbrain_memory" == on ]; then
-#				echo "32 32" > /proc/sys/vm/lowmem_reserve_ratio;
-#			fi;
+			if [ "$cortexbrain_memory" == on ]; then
+				echo "32 32" > /proc/sys/vm/lowmem_reserve_ratio;
+			fi;
 		else
 			echo "0" > /proc/sys/vm/oom_kill_allocating_task;
 			echo "0" > /proc/sys/vm/panic_on_oom;
@@ -645,8 +645,8 @@ LOWMMKILLER()
 CROND_SAFETY()
 {
 	if [ "$crontab" == on ]; then
-		pkill -f "crond";
-		/res/crontab_service/service.sh;
+		$BB pkill -f "crond";
+		$BB /res/crontab_service/service.sh;
 		log -p i -t $FILE_NAME "*** CROND_SAFETY ***";
 	fi;
 }
@@ -746,7 +746,7 @@ AWAKE_MODE()
 
 	WAKEUP_BOOST_DELAY;
 	
-	echo "$AWAKE_LAPTOP_MODE" > /proc/sys/vm/laptop_mode;
+#	echo "$AWAKE_LAPTOP_MODE" > /proc/sys/vm/laptop_mode;
 	
 	if [ "$cortexbrain_wifi" == on ]; then
 	$IWCONFIG $INTERFACE frag 2345;

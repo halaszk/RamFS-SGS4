@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 
 if [ -z $2 ];then
 	if [ -z $vnswap_size ]; then

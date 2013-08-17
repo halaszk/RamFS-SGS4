@@ -1,0 +1,127 @@
+#!/sbin/busybox sh
+
+cat << ENDCONFIG
+  <settingsTab name="Other">
+		<settingsPane description="Here you can activate Auto system: clean, tune, reconfig, resync, and much more" name="CRON TASKS MENU">
+		
+		<spinner description="Main Switch for CRON TASKER ON/OFF. If set to OFF, then all tasks below have no effect!" name="CRON TASK MAIN SWITCH" action="crontab">
+			<spinnerItem name="Cron Tasker ON" value="on"/> 
+			<spinnerItem name="Cron Tasker OFF" value="off"/> 
+		</spinner>
+		
+		<button description="Use this button to test if Cron Task Service is ONLINE and supported! If main switch is ON, and service is OFFLINE, then ROM Busybox is not supporting CRON. Update Busybox or ROM for this to work." name="Test Cron Task Service" action="push-actions/crontab_test" label="Test Cron Task Service"/>
+		
+		<button description="Use this button to RESET Cron scripts and jobs from kernel to refresh the configuration, This will clear all custom changes!" name="CRON Function Reset" action="push-actions/crontab_reset" label="Reset Cron Files"/>
+		
+		<checkbox description="Cron Task to clear RAM Cache/Buffers every HOUR only if CPU is resting(IDLE)! this will free RAM from buffers and not used cache"
+			name="RAM Cache Clean Task" action="generic_cortex /tmp/cron_drop_cache" label="RAM Cache Clean Every Hour"/>
+			
+		<checkbox description="Cron Task to update AD BLOCKER every week at SAT 6:00AM UTC time, from official site. task will check if internel is connected, if not will try to use WIFI! script will turn wifi wait for connection and update, when finish will turn WIFI off. if not connection, will write error in log"
+			name="Update AD Block every week" action="generic_cortex /tmp/ad_block_update" label="Update AD Block every week"/>
+			
+		<checkbox description="Cron Task to clear APP cache every 4:00AM only if CPU is resting(IDLE)! this can maintain free space on data partition, and clean all old junk."
+			name="DISK Clean Task" action="generic_cortex /tmp/cron_clear_app_cache" label="DISK Clean Task Every 4:00AM"/>
+			
+		<checkbox description="Cron Task to FIX APPS Permissions every 4:40AM only if CPU is resting(IDLE)! this can help to reduce errors, bugs, and applications FC."
+			name="Permissions Fix Task" action="generic_cortex /tmp/cron_fix_permissions" label="Permissions Fix Task Every 4:40AM"/>
+			
+		<checkbox description="Cron Task to Zipalign all DATA APPS every 4:50AM only if CPU is resting(IDLE)! This can help to reduce errors, bugs, applications FC, and improve applications load speed. Backup all apps before use! This process will remove apps that are BROKEN and not compressed or compiled correctly, so you may find some apps missing. Use it at your own risk and update the broken Apps!"
+			name="Zipalign Task" action="generic_cortex /tmp/cron_zipalign" label="Zipalign Task Every 4:50AM"/>
+
+		<checkbox description="Cron to DB Optimize every day at 3:00AM, only if CPU is resting (IDLE)!"
+			name="DB Optimization" action="generic_cortex /tmp/cron_db_optimizing" label="DB Optimization task every day at 3:00AM"/>
+		
+		<button description="Use this button to check if Cron Task Jobs are done as requested. This will show the log for all finished jobs." name="Test Cron Task Jobs" action="push-actions/crontab_log" label="Test Cron Task Jobs"/>
+	</settingsPane>
+	
+    <settingsPane description="Misc Settings" name="Misc Settings">	
+	
+	<spinner description="GPS Time Zone for faster LOCK! Use your region to fix GPS location!" name="GPS Region" action="gpsregion">
+			  <spinnerItem name="No GPS Zone changes (default)" value="No_GPS_Zone_changes"/>
+			  <spinnerItem name="Set Asia" value="Asia"/>
+			  <spinnerItem name="Set Europe" value="Europe"/>
+			  <spinnerItem name="Set Oceania" value="Oceania"/>
+			  <spinnerItem name="Set North America" value="North-America"/>
+		 	  <spinnerItem name="Set South America" value="South-America"/>
+			  <spinnerItem name="Set Africa" value="Africa"/>
+			  <spinnerItem name="Restore original ROM gps.conf" value="Original_ROM_GPS_Restored"/>
+	</spinner>
+	
+	<button description="Click to see your current GPS ZONE" name="GPS ZONE" action="push-actions/gpszonecheck" label="GPS ZONE CHECK"/>
+
+		<button description="Update time via ntp-server" name="UPDATE TIME" action="push-actions/time_update" label="UPDATE TIME"/>
+
+		<spinner description="Change USB connection mode. Either leave it as default or force it to mass storage mode (you will see your sdcards as disks) or mtp"
+				 name="USB Mass Storage Mode" action="usb-mode">
+			 <spinnerItem name="Default" value="default"/>
+			 <spinnerItem name="Force Mass Storage Mode" value="mass_storage-adb"/>
+			 <spinnerItem name="Force MTP Mode" value="mtp-adb"/>
+		</spinner>
+		
+		<button description="Clean WIFI DHCP IP Lease. Push the botton to activate!" name="Clean WIFI Lease" action="push-actions/fix_wifi" label="Clean WIFI Lease"/>
+	</settingsPane>
+	
+	</settingsTab>
+
+	<settingsTab name="Tweaks">
+    <settingsPane description="These settings control CFS (Complete Fair Scheduler) Task Scheduler Settings" name="CFS Settings">
+      <checkbox description="Disabling GENTLE_FAIR_SLEEPERS may give you better UI responsiveness." name="GENTLE_FAIR_SLEEPERS" action="generic01 sys/kernel/sched/gentle_fair_sleepers" label="GENTLE_FAIR_SLEEPERS"/>
+      <checkbox description="Using ARCH_POWER enables the use of arm topology power functions instead of generic ones." name="ARCH_POWER" action="schedfeat ARCH_POWER" label="ARCH_POWER"/>
+    </settingsPane>
+	<settingsPane description="Here you can manage cortexbrain-tune script" name="Automation Script tuning.">
+		<spinner description="Enable or Disable the background-process from cortexbrain-tune.sh. If you disable it, you will you lose kernel AI that maintains your device. After enabling it, wait 2sec, then push the CHECK SERVICE button to see if service is online."
+					 name="Cortexbrain-Background-Process" action="cortexbrain_background_process">
+		<spinnerItem name="Enable" value="1"/>
+		<spinnerItem name="Disable" value="0"/>
+		</spinner>
+		<button description="Cortex service checker. Click to see if Cortexbrain 'background-process' is running or not" name="CORTEX Service check" action="push-actions/cortexbrain_background_process_check" label="CHECK SERVICE"/>
+	<spinner description="Here you can control android logger logcat. If you set it to AUTO, then you will have logs only on screen is on. When screen will be off, logger will be disabled to save battery. If you set DEBUG, it will be working no matter what! If set to DISABLED, logging will be off, no matter what. The tweak depends on Cortexbrain to be enabled. If USB/Charger is connected and logger is set to AUTO, logging will not be disabled so we can debug."
+					 name="Android Logger control" action="android_logger">
+		<spinnerItem name="AUTO" value="auto"/>
+		<spinnerItem name="DEBUG" value="debug"/>
+		<spinnerItem name="DISABLED" value="disabled"/>
+	</spinner>
+	
+	<checkbox description="If checked, Mass Storage SDCARDS will be Auto mounted when USB connected. then you can transfer files on high speed from PC to device. ON by Default."
+			name="Auto Mount USB Drives" action="generic_cortex /tmp/auto_mount_sd" label="Auto Mount USB Drives"/>
+		<checkbox description="Enable or Disable IO-Tweaks. (To update after change REBOOT)"
+                        name="IO-Tweaks" action="generic_cortex /tmp/cortexbrain_io" label="IO-Tweaks"/>
+		<checkbox description="Enable or Disable Firewall-Tweaks. (To update after change REBOOT)"
+			name="Firewall-Tweaks" action="generic_cortex /tmp/cortexbrain_firewall" label="Firewall-Tweaks"/>
+		<checkbox description="Enable or Disable TCP-Tweaks. (To update after change REBOOT)"
+			name="TCP-Tweaks" action="generic_cortex /tmp/cortexbrain_tcp" label="TCP-Tweaks"/>
+		<checkbox description="Enable or Disable TCP-RAM-Tweaks (reboot needed)." 
+			name="TCP-RAM-Tweaks" action="generic_cortex /tmp/cortexbrain_tcp_ram" label="TCP-RAM-Tweaks"/>
+		<checkbox description="Enable or Disable IPv6 Network. (Default is OFF. To update after change, turn OFF screen and then turn it ON after 3sec!)"
+			name="IPv6 Tweaks" action="generic_cortex /tmp/cortexbrain_ipv6" label="IPv6"/>
+		<checkbox description="Enable or Disable CPU-WakeUP Tweaks. (To update after change, turn OFF screen and turn it ON after 3sec!)"
+			name="CPU-WakeUp Tweaks" action="generic_cortex /tmp/cortexbrain_cpu_boost" label="CPU-BoostTweaks"/>
+		<checkbox description="Enable or Disable CPU-Tweaks. (To update after change, turn OFF screen and turn it ON after 3sec!)"
+                        name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
+		<checkbox description="Enable or Disable Battery-Tweaks. (To update after change REBOOT)"
+			name="Battery-Tweaks" action="generic_cortex /tmp/cortexbrain_battery" label="Battery-Tweaks"/>
+		<checkbox description="Enable or Disable System-Tweak. (To update after change REBOOT)"
+			name="System-Tweaks" action="generic_cortex /tmp/cortexbrain_system" label="System-Tweaks"/>
+		<checkbox description="Enable or Disable Kernel-Tweaks. (To update after change REBOOT)"
+			name="Kernel-Tweaks" action="generic_cortex /tmp/cortexbrain_kernel_tweaks" label="Kernel-Tweaks"/>
+	        <checkbox description="Here you can allow WIFI to use LOW PWR when Screen is turned OFF. When screen is back ON, WIFI turns back to high PWR). If not set, WIFI uses HIGH PWR and get fast WIFI transfers on screen OFF"
+            		name="Wifi Low PWR Switch" action="generic_cortex /tmp/wifi_pwr" label="Wifi Low PWR"/>
+		<checkbox description="Enable or Disable WIFI-Tweaks. (To update after change REBOOT)"
+			name="WIFI-Tweaks" action="generic_cortex /tmp/cortexbrain_wifi" label="WIFI-Tweaks"/>
+		 <seekBar description=""
+	        name="wifi power limit" action="generic_cortex /tmp/cortexbrain_wifi_tx" unit=" dBm" min="1" reversed="false" step="1" max="100"/>
+		</settingsPane>
+	</settingsTab>  
+	<settingsTab name="BACKUP/RESTORE">
+		<settingsPane description="Here you can Backup/Restore your STWEAKS settings after installing new kernel. When you restore STWEAKS, the application will be closed and your settings will be committed! Some settings will work only after reboot! Wait till STWEAKS restarts with the new settings! Restore will take up to 30 secs, just wait here!"
+				 name="STweaks Settings Backup/Restore">
+			<button description="Backup STweaks User Settings!" name="Settings Backup" action="push-actions/config_backup_restore 1" label="BACKUP NOW"/>
+			<button description="Restore STweaks User Settings!" name="Settings Restore" action="push-actions/config_backup_restore 2" label="RESTORE NOW"/>
+		</settingsPane>
+		
+		<settingsPane description="Here you can Add/Update/Remove AD Blocker! You need ROOT to do the tweak! If you want to update the blocker, you can push the UPDATE AD NOW button, to get the new one installed! If you install a new ROM, and you want to use AD BLOCKER, then push UPDATE AD NOW and REBOOT. If you need to REMOVE AD-BLOCKER use the REMOVE button and REBOOT" name="AD Blocker menu.">
+			<button description="ADD/UPDATE AD BLOCKER" name="AD-B UPDATE/ADD" action="push-actions/ad_update" label="UPDATE AD-B NOW"/>
+			<button description="REMOVE AD Blocker" name="AD-B REMOVE" action="push-actions/ad_restore" label="REMOVE AD-B NOW"/>
+		</settingsPane>
+	</settingsTab>
+ENDCONFIG

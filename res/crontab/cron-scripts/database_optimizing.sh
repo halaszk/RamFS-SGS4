@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 
 (
 	PROFILE=`cat /data/.halaszk/.active.profile`;
@@ -26,7 +26,7 @@
 			/system/xbin/sqlite3 $i 'REINDEX;';
 		done;
 
-		date > /data/crontab/cron-db-optimizing;
+		date +%H:%M-%D-%Z > /data/crontab/cron-db-optimizing;
 		echo "Done! DB Optimized" >> /data/crontab/cron-db-optimizing;
 	fi;
 )&

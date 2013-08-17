@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 
 (
 	rm -f /system/etc/cron.d/crontabs/*

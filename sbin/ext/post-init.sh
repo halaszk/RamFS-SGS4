@@ -4,7 +4,6 @@ BB="/sbin/busybox";
 
 $BB mount -o remount,rw /system
 $BB mount -t rootfs -o remount,rw rootfs
-$BB mkdir /tmp;
 $BB chmod 777 /tmp;
 
 if [ ! -f /system/xbin/su ]; then
@@ -72,12 +71,6 @@ if [ -f /data/.halaszk/restore_running ]; then
 $BB rm -f /data/.halaszk/restore_running;
 fi;
 
-# for dev testing
-PROFILES=`$BB ls -A1 /data/.halaszk/*.profile`;
-for p in $PROFILES; do
-$BB cp $p $p.test;
-done;
-
 . /res/customconfig/customconfig-helper;
 
 read_defaults;
@@ -105,11 +98,9 @@ mount -o remount,rw /
 mkdir -p /mnt/ntfs
 chmod 777 /mnt/ntfs
 mount -o mode=0777,gid=1000 -t tmpfs tmpfs /mnt/ntfs
-mount -o remount,ro /
-
 
 # Cortex parent should be ROOT/INIT and not STweaks
-nohup /sbin/ext/cortexbrain-tune.sh; 
+/sbin/ext/cortexbrain-tune.sh; 
 
 # Stop uci.sh from running all the PUSH Buttons in stweaks on boot.
 $BB mount -o remount,rw rootfs;

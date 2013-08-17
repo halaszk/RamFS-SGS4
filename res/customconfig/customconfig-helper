@@ -1,6 +1,6 @@
 #!/sbin/busybox sh
 # custom script helper by Gokhan Moral
-# Customized by Andrei F.
+# Customized by Andrei F. for Perseus kernels
 
 REVISION=`cat /res/customconfig/config.revision`
 
@@ -178,7 +178,7 @@ if [ ! -f $PROFILE_PATH/default.profile ]; then
 fi
 
 if [ ! -f $CONFIG_XML -o "$REVISION" != "`cat $REVISION_PATH`" ]; then
-	source /res/customconfig/customconfig.xml.generate
+	source /res/customconfig/customconfig.xml.generate > $CONFIG_XML
 fi
 
 if [ -f $ACTION_CACHE -a "$REVISION" != "`cat $REVISION_PATH`" ]; then

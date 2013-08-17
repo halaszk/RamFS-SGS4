@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 
 
 WGET_CHECK1=`ls -la /system/xbin/wget | wc -l`;

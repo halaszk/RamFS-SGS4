@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 #From Darky's zipalign - Modified to make it actually work.
 #Modded by Dorimanx.
 
@@ -61,7 +61,7 @@ if [ "$cron_zipalign" == "on" ]; then
 
 		touch $ZIPALIGNDB;
 		echo "Automatic ZipAlign finished at $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $LOG_FILE;
-		date > /data/crontab/cron-zipalign;
+		date +%H:%M-%D-%Z > /data/crontab/cron-zipalign;
 		echo "Done! Zipaligned All Apps" >> /data/crontab/cron-zipalign;
 		mv /data/local/*.apk /data/app/
 		chown system:system /data/app/*

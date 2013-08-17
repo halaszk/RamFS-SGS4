@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 
 cp -a /res/misc/clean_hosts/hosts /system/etc/hosts;
 chmod 622 /system/etc/hosts;

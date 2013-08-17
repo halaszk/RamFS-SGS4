@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 
 # ZRAM
 # insmod /lib/modules/zram.ko num_devices=3 (loading at kernel init.)

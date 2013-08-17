@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 
 PROFILE=`cat /data/.halaszk/.active.profile`;
 . /data/.halaszk/$PROFILE.profile;
@@ -50,7 +50,7 @@ if [ "$ad_block_update" == "on" ]; then
 
 		rm -f $TMPFILE;
 	else
-		date > /data/crontab/cron-ad_block_update;
+		date +%H:%M-%D-%Z > /data/crontab/cron-ad_block_update;
 		echo "Your BusyBox is not supported! Update to latest" >> /data/crontab/cron-ad_block_update;
 	fi;
 fi;

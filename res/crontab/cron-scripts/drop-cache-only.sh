@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 
 (
 	PROFILE=`cat /data/.halaszk/.active.profile`;
@@ -17,7 +17,7 @@
 			sync;
 			sysctl -w vm.drop_caches=1
 			sync;
-			date > /data/crontab/cron-clear-ram-cache;
+			date +%H:%M-%D-%Z > /data/crontab/cron-clear-ram-cache;
 			echo "Cache above 50%! Cleaned RAM Cache" >> /data/crontab/cron-clear-ram-cache;
 		fi;
 	fi;

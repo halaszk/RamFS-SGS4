@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 
 if [ -e /sbin/zram_stats_ex ]; then
 	/sbin/zram_stats_ex;

@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 
 if [ ! -e /data/crontab/cron-clear-file-cache ]; then
 	echo "no data" > /data/crontab/cron-clear-file-cache;

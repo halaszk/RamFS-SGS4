@@ -1,4 +1,4 @@
-#!/sbin/busybox sh
+#!/bin/busybox sh
 
 CRON_SERVICE=`pgrep -f "crond" | wc -l`;
 if [ "$CRON_SERVICE" != 0 ]; then
