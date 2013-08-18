@@ -1,4 +1,4 @@
-#!/bin/busybox sh
+#!/sbin/busybox sh
 
 # $1 - "cortexbrain_background_process"
 # $2 - value=

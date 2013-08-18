@@ -39,26 +39,3 @@ done
     </settingsPane>
   </settingsTab>
 ENDCONFIG
-
-: << IGNORE
-
-    <settingsPane name="Virtual NAND swap" 
-                  description="VNSwap is a virtual backing device on the system memory. If active, it'll be used as a swap partition">
-
-      <seekBar  description="The disk size represents the amount of data allowed to fit into the ramdisk." 
-                name="VNSwap disk size" 
-                action="vnswap"
-                unit="mB" min="0" reversed="false" step="8" max="200"/>
-
-      <seekBar  description="ZSwap memory pool percentage of main memory that may be used as compressed page cache." 
-                name="ZSwap memory pool" 
-                action="generic /sys/module/zswap/parameters/max_pool_percent"
-                unit="%" min="0" reversed="false" step="1" max="50"/> 
-
-      <seekBar  description="A low value means the kernel will try to avoid swapping as much as possible where a higher value instead will make the kernel aggressively try to use swap space." 
-                name="Virtual machine swappiness" 
-                action="generic /proc/sys/vm/swappiness"
-                unit="%" min="0" reversed="false" step="1" max="200"/>
-
-    </settingsPane>
-IGNORE

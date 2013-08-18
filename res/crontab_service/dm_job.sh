@@ -1,4 +1,4 @@
-#!/bin/busybox sh
+#!/sbin/busybox sh
 
 # Created By Dorimanx and Dairinin
 

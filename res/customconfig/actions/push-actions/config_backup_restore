@@ -1,4 +1,4 @@
-#!/bin/busybox sh
+#!/sbin/busybox sh
 export PATH="/res/customconfig/actions/push-actions:${PATH}";
 
 LOCK_FILE="/data/.halaszk/restore_running";

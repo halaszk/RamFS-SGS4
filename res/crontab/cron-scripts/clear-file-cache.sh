@@ -1,4 +1,4 @@
-#!/bin/busybox sh
+#!/sbin/busybox sh
 # Clear Cache script
 
 (

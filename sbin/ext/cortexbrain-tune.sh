@@ -1,6 +1,6 @@
 #!/sbin/busybox sh
 
-#Credits:
+# Credits:
 # Zacharias.maladroit
 # Voku1987
 # Collin_ph@xda
@@ -24,7 +24,7 @@ IWCONFIG="/sbin/iwconfig";
 INTERFACE=wlan0;
 AWAKE_LAPTOP_MODE="0";
 SLEEP_LAPTOP_MODE="0";
-BB="/system/xbin/busybox";
+BB="/sbin/busybox";
 PROP="/system/bin/setprop";
 sqlite="/sbin/sqlite3";
 wifi_idle_wait=10000;
@@ -218,8 +218,8 @@ SYSTEM_TWEAKS;
 BATTERY_TWEAKS()
 {
 	if [ "$cortexbrain_battery" == on ]; then
-#	  $BB mount -t debugfs none /sys/kernel/debug;
-#	  $BB umount /sys/kernel/debug;
+	  $BB mount -t debugfs none /sys/kernel/debug;
+	  $BB umount /sys/kernel/debug;
 	  # vm tweaks
 	  echo "$dirty_background_ratio" > /proc/sys/vm/dirty_background_ratio; # default: 10
           echo "$dirty_ratio" > /proc/sys/vm/dirty_ratio; # default: 20
@@ -715,8 +715,8 @@ IO_SCHEDULER()
 		echo "$internal_iosched" > $sys_mmc0_scheduler;
 		echo "$sd_iosched" > $sys_mmc1_scheduler;
 	elif [ "${state}" == "sleep" ]; then
-		echo "cfq" > $sys_mmc0_scheduler;
-		echo "cfq" > $sys_mmc1_scheduler;
+		echo "noop" > $sys_mmc0_scheduler;
+		echo "noop" > $sys_mmc1_scheduler;
 	fi;
 
 	log -p i -t $FILE_NAME "*** IO_SCHEDULER: ${state} - INTERNAL: $internal_iosched EXTERNAL: $sd_iosched ***: done";	
@@ -742,7 +742,7 @@ AWAKE_MODE()
 	MEGA_BOOST_CPU_TWEAKS;
 
 	#restore normal max freq after call or sleep ending
-#	echo "$scaling_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+	echo "$scaling_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 
 	WAKEUP_BOOST_DELAY;
 	
@@ -879,9 +879,9 @@ SLEEP_MODE()
 	else
 
 	# reduce CPU speed in call mode (no overheating under call)
-#	echo "600000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+	echo "1000000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 		
-	log -p i -t $FILE_NAME "*** On Call! SLEEP aborted, Reduced CPU speed to 600MHz! ***";
+	log -p i -t $FILE_NAME "*** On Call! SLEEP aborted, Reduced CPU speed to 1000MHz! ***";
 
 	fi;
 

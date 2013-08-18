@@ -1,4 +1,4 @@
-#!/bin/busybox sh
+#!/sbin/busybox sh
 
 PROFILE=`cat /data/.halaszk/.active.profile`;
 . /data/.halaszk/$PROFILE.profile;

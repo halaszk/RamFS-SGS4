@@ -1,4 +1,4 @@
-#!/bin/busybox sh
+#!/sbin/busybox sh
 #From Darky's zipalign - Modified to make it actually work.
 #Modded by Dorimanx.
 
