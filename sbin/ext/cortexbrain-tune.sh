@@ -189,7 +189,7 @@ SYSTEM_TWEAKS()
 	$PROP debug.performance.tuning 1;
 	$PROP debug.sf.hw 1;
 	$PROP persist.sys.use_dithering 1;
-#	$PROP persist.sys.ui.hw true; # ->reported as problem maker in some roms.
+	$PROP persist.sys.ui.hw true; # ->reported as problem maker in some roms.
 
 	# render UI with GPU
 	$PROP hwui.render_dirty_regions false;

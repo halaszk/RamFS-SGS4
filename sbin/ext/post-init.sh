@@ -4,7 +4,7 @@ BB="/sbin/busybox";
 
 $BB mount -o remount,rw /system
 $BB mount -t rootfs -o remount,rw rootfs
-$BB chmod 777 /tmp;
+$BB chmod -R 777 /tmp;
 
 if [ ! -f /system/xbin/su ]; then
 $BB mv  /res/su /system/xbin/su
