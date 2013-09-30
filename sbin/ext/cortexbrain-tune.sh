@@ -645,9 +645,14 @@ LOWMMKILLER()
 CROND_SAFETY()
 {
 	if [ "$crontab" == on ]; then
-		$BB pkill -f "crond";
-		$BB /res/crontab_service/service.sh;
+		pkill -f "crond";
+		/res/crontab_service/service.sh;
+
 		log -p i -t $FILE_NAME "*** CROND_SAFETY ***";
+
+		return 0;
+	else
+		return 1;
 	fi;
 }
 
